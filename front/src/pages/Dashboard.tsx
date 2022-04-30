@@ -6,6 +6,10 @@ function Dashboard() {
   const { logout, authToken, isAuthenticated } = useContext(AuthContext);
 
   return <React.Fragment>
+    <head>
+      <title>Dashboard</title>
+    </head>
+
     <AppBar position="absolute">
       <Toolbar
         sx={{

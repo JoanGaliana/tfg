@@ -1,1 +1,8 @@
-{}
+{
+  "baseUrl": "http://localhost:3000",
+  "env": {
+    "backendURL": "http://localhost:8080",
+    "email": "Frodo",
+    "password": "1234"
+  }
+}

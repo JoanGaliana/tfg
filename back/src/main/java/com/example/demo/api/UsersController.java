@@ -5,6 +5,8 @@ import com.example.demo.exceptions.InvalidCredentials;
 import com.example.demo.model.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,14 +28,14 @@ public class UsersController {
     }
 
     @PostMapping("login")
-    String loginByPassword(@RequestBody @Valid LoginData loginData) {
+    ResponseEntity<String> loginByPassword(@RequestBody @Valid LoginData loginData) {
         try {
             Authentication data = new UsernamePasswordAuthenticationToken(loginData.email, loginData.password);
             Authentication authenticate = authenticationManager.authenticate(data);
 
             User user = (User) authenticate.getPrincipal();
 
-            return jwtTokenUtil.generateAccessToken(user);
+            return new ResponseEntity<>(jwtTokenUtil.generateAccessToken(user),HttpStatus.CREATED);
         } catch (BadCredentialsException ex) {
             throw new InvalidCredentials();
         }

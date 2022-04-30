@@ -30,12 +30,14 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "cypress:open": "npx cypress open",
     "fetchAPITypes": "npx openapi-typescript http://localhost:8080/v3/api-docs --output src/API_DEFS.ts"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -49,5 +51,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^9.5.3",
+    "eslint-plugin-cypress": "^2.12.1"
   }
 }
