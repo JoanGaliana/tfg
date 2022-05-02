@@ -1,5 +1,6 @@
 package com.galiana.tfg.api;
 
+import jdk.jfr.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -7,8 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.contains;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -33,8 +36,9 @@ public class UsersTest {
                 )
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("INVALID_CREDENTIALS"));
-    }    @Test
+    }
 
+    @Test
     public void invalidLoginEmailReturnsUnauthorized() throws Exception {
         var body = """
                                 {
@@ -50,5 +54,23 @@ public class UsersTest {
                 )
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("INVALID_CREDENTIALS"));
+    }
+
+    @Test
+    public void validLoginReturnsToken() throws Exception {
+        var body = """
+                                {
+                                  "email": "alicia@test.com",
+                                  "password": "1234"
+                                }
+                """;
+
+        this.mockMvc.perform(
+                        post("/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body)
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType("text/plain;charset=UTF-8"));
     }
 }
