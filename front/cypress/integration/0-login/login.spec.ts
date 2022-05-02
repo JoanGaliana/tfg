@@ -4,10 +4,10 @@ describe('login examples', () => {
   beforeEach(() => {
     cy.visit('/login');
 
-    cy.wrap('Frodo').as('email');
+    cy.wrap(Cypress.env('email')).as('email');
     cy.wrap('pepe').as('wrongEmail');
 
-    cy.wrap('1234').as('password');
+    cy.wrap(Cypress.env('password')).as('password');
     cy.wrap('123').as('wrongPassword');
 
   });
