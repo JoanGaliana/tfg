@@ -17,7 +17,7 @@ public class UserService {
 
     @Transactional
     public User create(String email, String password) throws ValidationException {
-        if (userRepository.existsByUsername(email)) {
+        if (userRepository.existsByEmail(email)) {
             throw new ValidationException("Username already exists");
         }
 

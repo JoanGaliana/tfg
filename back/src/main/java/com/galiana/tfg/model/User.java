@@ -5,16 +5,14 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "USERS")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,33 +21,42 @@ public class User implements UserDetails {
 
     @Getter
     @Setter
+    @Column(unique = true)
     private String email;
 
     @Getter
-    @Setter @JsonIgnore
+    @Setter
+    @JsonIgnore
     private String password;
 
     @Getter
     @Setter
-    private String username;
+    @JsonIgnore
+    private boolean accountNonExpired = true;
 
     @Getter
-    @Setter @JsonIgnore
-    private boolean accountNonExpired = true;
-    @Getter
-    @Setter @JsonIgnore
+    @Setter
+    @JsonIgnore
     private boolean accountNonLocked = true;
+
     @Getter
-    @Setter @JsonIgnore
+    @Setter
+    @JsonIgnore
     private boolean credentialsNonExpired = true;
+
     @Getter
-    @Setter @JsonIgnore
+    @Setter
+    @JsonIgnore
     private boolean enabled = true;
 
     public User(String email, String password) {
         this.email = email;
-        this.username = email;
         this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
     }
 
     @Override
