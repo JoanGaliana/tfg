@@ -33,5 +33,22 @@ public class UsersTest {
                 )
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("INVALID_CREDENTIALS"));
+    }    @Test
+
+    public void invalidLoginEmailReturnsUnauthorized() throws Exception {
+        var body = """
+                                {
+                                  "email": "non-existant@test.com",
+                                  "password": "1234"
+                                }
+                """;
+
+        this.mockMvc.perform(
+                        post("/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body)
+                )
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error").value("INVALID_CREDENTIALS"));
     }
 }
