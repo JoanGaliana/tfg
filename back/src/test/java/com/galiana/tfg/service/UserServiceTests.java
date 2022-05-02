@@ -26,6 +26,11 @@ public class UserServiceTests {
         assertThat(newUser).isNotNull();
         assertThat(newUser.getEmail()).isEqualTo(email);
         assertThat(newUser.getPassword()).isNotEqualTo(email);
+
+        assertThat(newUser.isEnabled()).isTrue();
+        assertThat(newUser.isAccountNonLocked()).isTrue();
+        assertThat(newUser.isAccountNonExpired()).isTrue();
+        assertThat(newUser.isCredentialsNonExpired()).isTrue();
     }
 
     @Test
