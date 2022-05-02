@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final String restApiDocPath = "/v3/api-docs";
     //    @Value("${springdoc.swagger-ui.path}")
     private final String swaggerPath = "/swagger-ui";
+    private final String h2ConsolePath = "/h2-console";
 
     public SecurityConfiguration(UserDetailsService userDetailsService, JwtTokenFilter jwtTokenFilter) {
         super();
@@ -81,12 +82,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 )
                 .and();
 
+        http
+                .headers()
+                .frameOptions()
+                .sameOrigin();
+
         // Set permissions on endpoints
         http.authorizeRequests()
                 // Swagger endpoints must be publicly accessible
                 .antMatchers("/").permitAll()
                 .antMatchers(format("%s/**", restApiDocPath)).permitAll()
                 .antMatchers(format("%s/**", swaggerPath)).permitAll()
+                .antMatchers(format("%s/**", h2ConsolePath)).permitAll()
                 // Our public endpoints
                 .antMatchers("/login").permitAll()
                 // Our private endpoints
