@@ -1,8 +1,8 @@
-package com.example.demo.api;
+package com.galiana.tfg.api;
 
-import com.example.demo.config.security.JwtTokenUtil;
-import com.example.demo.exceptions.InvalidCredentials;
-import com.example.demo.model.User;
+import com.galiana.tfg.config.security.JwtTokenUtil;
+import com.galiana.tfg.exceptions.InvalidCredentials;
+import com.galiana.tfg.model.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

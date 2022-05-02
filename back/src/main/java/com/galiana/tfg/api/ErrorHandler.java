@@ -1,6 +1,6 @@
-package com.example.demo.api;
+package com.galiana.tfg.api;
 
-import com.example.demo.exceptions.InvalidCredentials;
+import com.galiana.tfg.exceptions.InvalidCredentials;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

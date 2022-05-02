@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.galiana.tfg.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

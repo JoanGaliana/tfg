@@ -1,6 +1,6 @@
-package com.example.demo.config.security;
+package com.galiana.tfg.config.security;
 
-import com.example.demo.model.User;
+import com.galiana.tfg.model.User;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

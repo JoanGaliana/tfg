@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.galiana.tfg.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.example.demo.exceptions;
+package com.galiana.tfg.exceptions;
 
 public class InvalidCredentials extends RuntimeException {
     public InvalidCredentials() {

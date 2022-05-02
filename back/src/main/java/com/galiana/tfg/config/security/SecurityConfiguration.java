@@ -1,6 +1,6 @@
-package com.example.demo.config.security;
+package com.galiana.tfg.config.security;
 
-import com.example.demo.service.UserDetailsService;
+import com.galiana.tfg.service.UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

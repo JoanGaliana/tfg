@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.galiana.tfg.service;
 
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
+import com.galiana.tfg.model.User;
+import com.galiana.tfg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

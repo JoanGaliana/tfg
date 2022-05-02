@@ -1,8 +1,8 @@
-package com.example.demo;
+package com.galiana.tfg;
 
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
+import com.galiana.tfg.model.User;
+import com.galiana.tfg.repository.UserRepository;
+import com.galiana.tfg.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

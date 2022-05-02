@@ -1,6 +1,6 @@
-package com.example.demo.config.security;
+package com.galiana.tfg.config.security;
 
-import com.example.demo.repository.UserRepository;
+import com.galiana.tfg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

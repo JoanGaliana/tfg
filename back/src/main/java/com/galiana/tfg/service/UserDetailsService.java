@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.galiana.tfg.service;
 
-import com.example.demo.repository.UserRepository;
+import com.galiana.tfg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
