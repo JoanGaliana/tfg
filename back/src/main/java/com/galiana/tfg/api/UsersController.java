@@ -5,8 +5,8 @@ import com.galiana.tfg.exceptions.InvalidCredentials;
 import com.galiana.tfg.model.Group;
 import com.galiana.tfg.model.User;
 import com.galiana.tfg.service.GroupService;
+import com.galiana.tfg.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Set;
 
 @Tag(name = "Authentication")
@@ -27,6 +28,7 @@ public class UsersController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final GroupService groupService;
+    private final UserService userService;
 
     private record LoginData(String email, String password) {
     }
@@ -39,15 +41,20 @@ public class UsersController {
 
             User user = (User) authenticate.getPrincipal();
 
-            return new ResponseEntity<>(jwtTokenUtil.generateAccessToken(user),HttpStatus.CREATED);
+            return new ResponseEntity<>(jwtTokenUtil.generateAccessToken(user), HttpStatus.CREATED);
         } catch (BadCredentialsException ex) {
             throw new InvalidCredentials();
         }
     }
 
+    @GetMapping("/users/current")
+    User getCurrentUser(Principal principal) {
+        return userService.findByEmail(principal.getName());
+    }
+
     @GetMapping("/users/{id}/groups")
     @PreAuthorize("#id == authentication.principal.id")
-    Set<Group> getUserGroups(@PathVariable Long id){
-        return  groupService.findByUserId(id);
+    Set<Group> getUserGroups(@PathVariable Long id) {
+        return groupService.findByUserId(id);
     }
 }

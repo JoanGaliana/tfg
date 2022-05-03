@@ -94,4 +94,15 @@ public class UsersTest {
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    @WithUserDetails("alicia@test.com")
+    public void getCurrentUserDetails() throws Exception {
+
+        this.mockMvc.perform(
+                        get("/users/current")
+                )
+                .andDo(print())
+                .andExpect(jsonPath("$.email").value("alicia@test.com"));
+    }
 }

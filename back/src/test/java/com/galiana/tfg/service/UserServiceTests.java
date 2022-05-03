@@ -45,4 +45,23 @@ public class UserServiceTests {
                 .isInstanceOf(ValidationException.class)
                 .hasMessageContaining("Username already exists");
     }
+
+    @Test
+    void findByEmail() {
+        var existingEmail = "alicia@test.com";
+
+        var user = userService.findByEmail(existingEmail);
+
+        assertThat(user).isNotNull();
+        assertThat(user.getEmail()).isEqualTo(existingEmail);
+    }
+
+    @Test
+    void findByEmailNonExisting() {
+        var nonExistingEmail = "nonExisting@test.com";
+
+        var user = userService.findByEmail(nonExistingEmail);
+
+        assertThat(user).isNull();
+    }
 }

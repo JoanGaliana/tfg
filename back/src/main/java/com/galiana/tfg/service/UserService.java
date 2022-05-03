@@ -28,4 +28,9 @@ public class UserService {
 
         return user;
     }
+
+    @Transactional()
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 }
