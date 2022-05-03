@@ -46,6 +46,7 @@ public class UsersController {
     }
 
     @GetMapping("/users/{id}/groups")
+    @PreAuthorize("#id == authentication.principal.id")
     Set<Group> getUserGroups(@PathVariable Long id){
         return  groupService.findByUserId(id);
     }

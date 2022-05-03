@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -81,5 +82,16 @@ public class UsersTest {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("testGroup"));
+    }
+
+    @Test
+    @WithUserDetails("alicia@test.com")
+    public void cantListOtherUserGroups() throws Exception {
+
+        this.mockMvc.perform(
+                        get("/users/2/groups")
+                )
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 }
