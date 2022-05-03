@@ -3,6 +3,7 @@ package com.galiana.tfg.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,6 +19,11 @@ public class Group {
     @Getter
     @Setter
     private String name;
+
+    @Getter
+    @Setter
+    @ManyToMany
+    private Set<User> users;
 
     Group(String name) {
         setName(name);
