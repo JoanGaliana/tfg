@@ -12,7 +12,7 @@ import java.util.Set;
 public class GroupService {
     final GroupRepository groupRepository;
 
-    Set<Group> findByUserId(Long userId) {
+    public Set<Group> findByUserId(Long userId) {
         return groupRepository.findByUsers_id(userId);
     }
 }
