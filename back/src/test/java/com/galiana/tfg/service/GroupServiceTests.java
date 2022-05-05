@@ -1,5 +1,6 @@
 package com.galiana.tfg.service;
 
+import com.galiana.tfg.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,5 +22,17 @@ public class GroupServiceTests {
 
         assertThat(aliceGroups).hasSize(1);
         assertThat(bobGroups).isEmpty();
+    }
+
+    @Test
+    @Transactional
+    void createGroup() {
+        var groupName = "new group";
+        var user = new User("Test user", "test");
+        var group = groupService.create(groupName, user);
+
+        assertThat(group.getName()).isEqualTo(groupName);
+
+        assertThat(group.getUsers()).contains(user);
     }
 }
