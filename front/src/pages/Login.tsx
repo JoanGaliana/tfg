@@ -1,13 +1,10 @@
 
-import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import { Card, CardContent, Container, Link } from '@mui/material';
 import { loginRequest } from '../services/AuthService';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -66,14 +63,6 @@ function Login() {
     <Container component="main" maxWidth="sm">
       <Card elevation={5}>
         <CardContent>
-          <head>
-            <title>Login</title>
-          </head>
-
-
-          {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar> */}
           <Typography component="h1" variant="h5">
             Inicio de sesión
           </Typography>

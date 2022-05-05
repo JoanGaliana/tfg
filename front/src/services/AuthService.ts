@@ -21,3 +21,9 @@ export function setStoredAuthToken(authToken: string) {
 export function clearStoredAuthToken() {
   setStoredAuthToken("");
 }
+
+export function getAuthenticationHeaders(authToken: string) {
+  return {
+    'Authorization': `Bearer ${authToken}`
+  }
+}

@@ -16,5 +16,12 @@ describe('Logged in', () => {
   it('Loads', () => {
     cy.contains('Dashboard');
   });
-
+  
+  it('Has groups list', () => {
+    cy.contains('Casa');
+    cy.contains('bernardo@test.com');
+    cy.contains('alicia@test.com');
+    cy.contains('Trabajo');
+    cy.contains('Viaje Granada');
+  });
 });

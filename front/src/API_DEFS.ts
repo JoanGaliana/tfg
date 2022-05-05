@@ -7,6 +7,12 @@ export interface paths {
   "/login": {
     post: operations["loginByPassword"];
   };
+  "/users/{id}/groups": {
+    get: operations["getUserGroups"];
+  };
+  "/users/current": {
+    get: operations["getCurrentUser"];
+  };
 }
 
 export interface components {
@@ -19,6 +25,22 @@ export interface components {
     LoginData: {
       email?: string;
       password?: string;
+    };
+    GrantedAuthority: {
+      authority?: string;
+    };
+    Group: {
+      /** Format: int64 */
+      id?: number;
+      name?: string;
+      users?: components["schemas"]["User"][];
+    };
+    User: {
+      /** Format: int64 */
+      id?: number;
+      email?: string;
+      authorities?: components["schemas"]["GrantedAuthority"][];
+      username?: string;
     };
   };
 }
@@ -42,6 +64,43 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["LoginData"];
+      };
+    };
+  };
+  getUserGroups: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["Group"][];
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  getCurrentUser: {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["User"];
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
       };
     };
   };

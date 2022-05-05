@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import React from 'react';
 import { AuthContextProvider } from './contexts/AuthContext';
+import './App.css'
 
 const queryClient = new QueryClient()
 

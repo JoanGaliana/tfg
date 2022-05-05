@@ -1,59 +1,28 @@
-import { AppBar, Toolbar, IconButton, Typography, Badge, Button, Box } from "@mui/material"
+import { Box } from "@mui/material"
 import React, { useContext } from "react"
-import { AuthContext } from "../contexts/AuthContext"
+import MainAppBar from "../components/MainAppBar";
+import UserGroups from "../components/UserGroups";
+import { AuthContext } from "../contexts/AuthContext";
+import { useCurrentUserQuery } from "../services/UsersService";
 
 function Dashboard() {
-  const { logout, authToken, isAuthenticated } = useContext(AuthContext);
+  const { authToken } = useContext(AuthContext)
+  const { data: currentUser } = useCurrentUserQuery(authToken)
+
+  const currentUserId = currentUser?.id;
 
   return <React.Fragment>
-    <head>
-      <title>Dashboard</title>
-    </head>
-
-    <AppBar position="absolute">
-      <Toolbar
-        sx={{
-          pr: '24px', // keep right padding when drawer closed
-        }}
-      >
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          sx={{
-            marginRight: '36px',
-          }}
-        >
-        </IconButton>
-        <Typography
-          component="h1"
-          variant="h6"
-          color="inherit"
-          noWrap
-          sx={{ flexGrow: 1 }}
-        >
-          Dashboard
-        </Typography>
-        <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
-          </Badge>
-        </IconButton>
-
-      </Toolbar>
-    </AppBar>
+    <MainAppBar />
     <Box
       component="main"
       sx={{
-        mt: '4rem',
+        mt: '5rem',
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
       }}
     >
-
-      <Button onClick={logout}>
-        Cerrar sesión
-      </Button>
+      <UserGroups userId={currentUserId}></UserGroups>
     </Box>
   </React.Fragment>
 }
