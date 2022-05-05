@@ -3,6 +3,7 @@ package com.galiana.tfg.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,12 @@ public class Group {
     @ManyToMany
     private Set<User> users;
 
-    Group(String name) {
+    public Group(String name, User creator) {
         setName(name);
+
+        var users = new HashSet<User>();
+        users.add(creator);
+
+        setUsers(users);
     }
 }
