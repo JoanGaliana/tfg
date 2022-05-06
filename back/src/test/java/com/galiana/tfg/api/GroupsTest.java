@@ -13,6 +13,8 @@ import javax.transaction.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -42,10 +44,45 @@ public class GroupsTest {
                 .andReturn().getResponse().getContentAsString();
 
         var createdGroup = groupRepository.findById(Long.decode(createdGroupId)).orElse(null);
-        var groupUser = createdGroup.getUsers().iterator().next();
 
         assertThat(createdGroup).isNotNull();
         assertThat(createdGroup.getUsers().size()).isEqualTo(1);
+
+        var groupUser = createdGroup.getUsers().iterator().next();
         assertThat(groupUser.getEmail()).isEqualTo("alicia@test.com");
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    public void getGroupById() throws Exception {
+        // Alicia is in group 1
+         this.mockMvc.perform(
+                        get("/groups/1")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("testGroup"));
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    public void getGroupByIdNotFound () throws Exception {
+        // Alicia is not in group 2
+        this.mockMvc.perform(
+                        get("/groups/99999")
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    public void getGroupByIdForbidden () throws Exception {
+        // Alicia is not in group 2
+        this.mockMvc.perform(
+                        get("/groups/2")
+                )
+                .andExpect(status().isForbidden());
     }
 }

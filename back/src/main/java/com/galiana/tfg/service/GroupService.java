@@ -26,4 +26,12 @@ public class GroupService {
 
         return group;
     }
+
+    public Group findById(long id) {
+        return groupRepository.findById(id).orElse(null);
+    }
+
+    public boolean isUserInGroup(long userId, long groupId) {
+        return groupRepository.existsByIdAndUsers_id(groupId, userId);
+    }
 }

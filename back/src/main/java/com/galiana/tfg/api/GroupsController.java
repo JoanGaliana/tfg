@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Groups")
 @RestController()
@@ -30,5 +28,24 @@ public class GroupsController {
         Group newGroup = groupService.create(createGroupData.name, currentUser);
 
         return new ResponseEntity<>(newGroup.getId(), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/groups/{id}")
+    ResponseEntity<Group> getGroupById(@PathVariable Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+
+        Group group = groupService.findById(id);
+
+        if (group == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        boolean userInGroup = groupService.isUserInGroup(currentUser.getId(), group.getId());
+        if (!userInGroup) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(group, HttpStatus.OK);
     }
 }

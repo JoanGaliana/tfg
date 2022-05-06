@@ -35,4 +35,26 @@ public class GroupServiceTests {
 
         assertThat(group.getUsers()).contains(user);
     }
+
+    @Test
+    @Transactional
+    void findById() {
+        var group1 = groupService.findById(1L); // name = testGroup
+        var group999 = groupService.findById(999L); // Does not exist
+
+        assertThat(group1).isNotNull();
+        assertThat(group1.getName()).isEqualTo("testGroup");
+        assertThat(group1.getUsers()).isNotNull();
+        assertThat(group1.getUsers()).isNotEmpty();
+
+        assertThat(group999).isNull();
+    }
+
+    @Test
+    @Transactional
+    void isUserInGroup() {
+        assertThat(groupService.isUserInGroup(1L, 1L)).isTrue();
+        assertThat(groupService.isUserInGroup(1L, 2L)).isFalse();
+        assertThat(groupService.isUserInGroup(99L, 99L)).isFalse();
+    }
 }

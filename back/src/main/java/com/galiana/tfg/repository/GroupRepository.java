@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
     Set<Group> findByUsers_id(Long userId);
+    boolean existsByIdAndUsers_id(Long groupId, Long userId);
 }
