@@ -7,6 +7,9 @@ export interface paths {
   "/login": {
     post: operations["loginByPassword"];
   };
+  "/groups": {
+    post: operations["createNewGroup"];
+  };
   "/users/{id}/groups": {
     get: operations["getUserGroups"];
   };
@@ -25,6 +28,9 @@ export interface components {
     LoginData: {
       email?: string;
       password?: string;
+    };
+    CreateGroupData: {
+      name?: string;
     };
     GrantedAuthority: {
       authority?: string;
@@ -64,6 +70,27 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["LoginData"];
+      };
+    };
+  };
+  createNewGroup: {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": number;
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateGroupData"];
       };
     };
   };

@@ -30,20 +30,20 @@ describe('login examples', () => {
     cy.get('[type="submit"]').click();
 
     cy.get('#email').parent().should('have.class', 'Mui-error');
-    cy.get('#email').parent().should('have.class', 'Mui-error');
+    cy.get('#password').parent().should('have.class', 'Mui-error');
 
     cy.get('#email').clear().type(this.wrongEmail);
     cy.get('#password').focus().clear().type(this.password);
     cy.get('[type="submit"]').click();
 
     cy.get('#email').parent().should('have.class', 'Mui-error');
-    cy.get('#email').parent().should('have.class', 'Mui-error');
+    cy.get('#password').parent().should('have.class', 'Mui-error');
 
     cy.get('#email').clear().type(this.email);
     cy.get('#password').focus().clear().type(this.wrongPassword);
     cy.get('[type="submit"]').click();
 
     cy.get('#email').parent().should('have.class', 'Mui-error');
-    cy.get('#email').parent().should('have.class', 'Mui-error');
+    cy.get('#password').parent().should('have.class', 'Mui-error');
   });
 });

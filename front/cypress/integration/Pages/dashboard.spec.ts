@@ -22,6 +22,11 @@ describe('Logged in', () => {
     cy.contains('bernardo@test.com');
     cy.contains('alicia@test.com');
     cy.contains('Trabajo');
-    cy.contains('Viaje Granada');
+    cy.contains('Padel');
+  });
+  
+  it('Has new group button', () => {
+    cy.get('[data-cy=create-group]').click();	
+    cy.url().should('contain', 'groups/new');
   });
 });
