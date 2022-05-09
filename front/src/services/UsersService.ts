@@ -1,10 +1,11 @@
 import axios from "axios"
 import { useQuery } from "react-query";
-import { operations } from '../API_DEFS';
+import { operations, components } from '../API_DEFS';
 import { getAuthenticationHeaders } from "./AuthService";
 
-type getUserGroupsResponse = operations['getCurrentUser']["responses"]["200"]["content"]["*/*"];
+export type User = components["schemas"]["User"];
 
+type getUserGroupsResponse = operations['getCurrentUser']["responses"]["200"]["content"]["*/*"];
 
 export function useCurrentUserQuery(authToken: string) {
   const headers = getAuthenticationHeaders(authToken);

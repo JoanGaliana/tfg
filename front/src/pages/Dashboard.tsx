@@ -23,7 +23,7 @@ function Dashboard() {
   const onFabClick = () => navigate('/groups/new')
 
   return <React.Fragment>
-    <MainAppBar />
+    <MainAppBar title="Mis grupos"/>
     <Box
       component="main"
       sx={{

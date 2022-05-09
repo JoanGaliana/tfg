@@ -37,3 +37,18 @@ export function useCreateGroupMutation({ onSuccess, authToken }: UseCreateGroupM
     { onSuccess }
   )
 }
+
+type GetGroupByIdResponse = operations['getGroupById']["responses"]["200"]["content"]["*/*"];
+
+export function useGetGroupByIdQuery(id: string | undefined, authToken: string) {
+  const headers = getAuthenticationHeaders(authToken);
+
+  return useQuery(
+    ['groups', id],
+    ({ signal }) => axios.get<GetGroupByIdResponse>(`http://localhost:8080/groups/${id}`, { signal, headers }),
+    {
+      enabled: !!id,
+      select: (response) => response.data
+    }
+  )
+}

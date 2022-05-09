@@ -16,6 +16,9 @@ export interface paths {
   "/users/current": {
     get: operations["getCurrentUser"];
   };
+  "/groups/{id}": {
+    get: operations["getGroupById"];
+  };
 }
 
 export interface components {
@@ -32,9 +35,6 @@ export interface components {
     CreateGroupData: {
       name?: string;
     };
-    GrantedAuthority: {
-      authority?: string;
-    };
     Group: {
       /** Format: int64 */
       id?: number;
@@ -45,7 +45,6 @@ export interface components {
       /** Format: int64 */
       id?: number;
       email?: string;
-      authorities?: components["schemas"]["GrantedAuthority"][];
       username?: string;
     };
   };
@@ -121,6 +120,27 @@ export interface operations {
       200: {
         content: {
           "*/*": components["schemas"]["User"];
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  getGroupById: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["Group"];
         };
       };
       /** Unauthorized */

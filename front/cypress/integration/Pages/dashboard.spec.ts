@@ -1,20 +1,21 @@
 /// <reference types="cypress" />
 
-describe('Unauthenticated', () => {
+describe('Unauthenticated dashboard', () => {
   it('Secured page', () => {
     cy.visit('/dashboard');
     cy.url().should('contain', 'login')
   })
 })
 
-describe('Logged in', () => {
+describe('Logged in dashboard', () => {
   beforeEach(() => {
     cy.login();
     cy.visit('/dashboard');
   });
-
-  it('Loads', () => {
-    cy.contains('Dashboard');
+  
+  it('Navbar', () => {
+    cy.get('[data-cy=nav-title]').contains('Mis grupos');
+    cy.get('[data-cy=nav-back]').should('not.exist');
   });
   
   it('Has groups list', () => {
