@@ -1,4 +1,5 @@
 {
+  "projectId": "iefzu9",
   "baseUrl": "http://localhost:3000",
   "env": {
     "backendURL": "http://localhost:8080",
