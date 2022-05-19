@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { operations } from '../API_DEFS';
+import { API_URL } from './ConfigService';
 
 type loginResponse = operations['loginByPassword']["responses"]["200"]["content"]["*/*"];
 type LoginRequestParameters = operations['loginByPassword']["requestBody"]["content"]["application/json"];
 
 export function loginRequest(payload: LoginRequestParameters) {
-  return axios.post<loginResponse>('http://localhost:8080/login', payload)
+  return axios.post<loginResponse>(`${API_URL}/login`, payload)
 }
 
 const AUTH_TOKEN_KEY = "authToken"
