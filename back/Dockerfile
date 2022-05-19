@@ -4,6 +4,8 @@ FROM openjdk:17-jdk-alpine as builder
 WORKDIR /usr/src
 
 COPY mvnw* ./
+RUN ["chmod", "+x", "mvnw"]
+
 COPY .mvn .mvn
 COPY pom.xml .
 RUN ./mvnw verify --fail-never
