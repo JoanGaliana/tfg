@@ -10,8 +10,7 @@ jobs:
       - name: Start containers
         run: docker-compose -f "./e2e/docker-compose.yml" up -d --build
       
-      - name: Run end to end tests
-        run: |
-          cd ./e2e/;
-          npm i;
-          npm start;
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          project: ./e2e
