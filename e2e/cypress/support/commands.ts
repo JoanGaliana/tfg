@@ -1,8 +1,12 @@
 
 /// <reference types="cypress" />
-
-import { getAuthenticationHeaders, getStoredAuthToken, setStoredAuthToken } from '../../../front/src/services/AuthService';
 import { Group } from '../@types/env';
+
+export function getAuthenticationHeaders(authToken: string) {
+  return {
+    'Authorization': `Bearer ${authToken}`
+  }
+}
 
 declare global {
   namespace Cypress {
@@ -29,7 +33,7 @@ Cypress.Commands.add("login", () => {
 
     const token = response.body;
 
-    setStoredAuthToken(token);
+    localStorage.setItem("authToken", token);
     Cypress.env('authToken', token);
   });
 });
