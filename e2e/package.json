@@ -1,0 +1,19 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "End to end tests",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx cypress run"
+  },
+  "dependencies": {
+    "cypress": "^9.5.3",
+    "eslint-plugin-cypress": "^2.12.1",
+    "typescript": "^4.6.4"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.34"
+  }
+}

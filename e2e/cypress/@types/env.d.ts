@@ -1,5 +1,5 @@
-import { User } from '../../src/services/UsersService';
-import { Group } from "../../src/services/GroupsService";
+import { User } from '../../../front/src/services/UsersService';
+import { Group } from "../../../front//src/services/GroupsService";
 
 declare global {
   namespace Cypress {

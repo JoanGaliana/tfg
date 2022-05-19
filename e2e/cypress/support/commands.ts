@@ -1,7 +1,7 @@
-import { Group } from './../../src/services/GroupsService';
+import { Group } from '../../../front/src/services/GroupsService';
 /// <reference types="cypress" />
 
-import { getAuthenticationHeaders, getStoredAuthToken, setStoredAuthToken } from '../../src/services/AuthService';
+import { getAuthenticationHeaders, getStoredAuthToken, setStoredAuthToken } from '../../../front/src/services/AuthService';
 
 declare global {
   namespace Cypress {
