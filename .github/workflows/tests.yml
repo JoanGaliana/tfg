@@ -13,4 +13,5 @@ jobs:
       - name: Run end to end tests
         run: |
           cd ./e2e/;
+          npm i;
           npm start;
