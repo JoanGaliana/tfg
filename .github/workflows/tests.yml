@@ -1,9 +1,8 @@
 name: Application tests
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  e2e-Tests:
     runs-on: ubuntu-latest
-    container: node:18-alpine
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
