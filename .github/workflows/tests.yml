@@ -28,6 +28,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: List images
+        run: |
+          docker images -a;
+          docker ps -a;
+        
       - name: Start containers
         run: docker-compose -f "./e2e/docker-compose.yml" up -d --no-build
       
