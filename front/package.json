@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-query": "^1.2.9",
     "cypress": "^9.5.3",
     "eslint-plugin-cypress": "^2.12.1"
   }
