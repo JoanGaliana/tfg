@@ -1,0 +1,17 @@
+name: Application tests
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    container: node:18-alpine
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      
+      - name: Start containers
+        run: docker-compose -f "./e2e/docker-compose.yml" up -d --build
+      
+      - name: Run end to end tests
+        run: |
+          cd ./e2e/;
+          npm start;
