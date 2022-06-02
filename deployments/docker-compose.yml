@@ -1,0 +1,30 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
+    depends_on:
+      - front-pre
+      - back-pre
+    environment:
+      - BACK_PRE_URL=${BACK_PRE_URL}
+      - FRONT_PRE_URL=${FRONT_PRE_URL}
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - front-pre
+      - back-pre
+
+  front-pre:
+    build: ../front
+    image: front
+    restart: always
+    environment: 
+      - API_URL=http://${BACK_PRE_URL}
+
+  back-pre:
+    build: ../back
+    image: back
+    restart: always
