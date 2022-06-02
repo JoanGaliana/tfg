@@ -3,7 +3,7 @@ on: [push]
 
 env:
   BACKEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-back-pre
-  FRONTEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-preç
+  FRONTEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-pre
   PRE_BASE_URL: tfg.joangaliana.com
   PRE_API_URL: back.tfg.joangaliana.com
 
