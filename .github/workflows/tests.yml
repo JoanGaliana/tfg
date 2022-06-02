@@ -4,8 +4,8 @@ on: [push]
 env:
   BACKEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-back-pre
   FRONTEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-pre
-  PRE_BASE_URL: tfg.joangaliana.com
-  PRE_API_URL: back.tfg.joangaliana.com
+  PRE_BASE_URL: http://tfg.joangaliana.com
+  PRE_API_URL: http://back.tfg.joangaliana.com
 
 jobs:
   e2e-tests:
