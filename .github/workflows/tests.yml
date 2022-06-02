@@ -2,8 +2,8 @@ name: Application tests
 on: [push]
 
 env:
-  BACKEND_PRE_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/tfg-back-pre
-  FRONTEND_PRE_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/tfg-front-pre
+  BACKEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-back-pre
+  FRONTEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-pre
 
 jobs:
   e2e-tests:
