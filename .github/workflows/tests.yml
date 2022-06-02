@@ -86,7 +86,6 @@ jobs:
           context: ./front
           push: true
           tags: ${{ env.FRONTEND_PRE_IMAGE_NAME }}
-          load: true
           cache-from: type=gha,scope=front
           cache-to: type=gha,mode=max,scope=front
       
