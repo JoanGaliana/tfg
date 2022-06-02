@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm i 
 
 ARG API_URL=backendurl
-ENV REACT_APP_API_URL=${API_URL}
+ENV REACT_APP_API_URL=__API_URL__
 
 COPY . ./
 RUN npm run build
@@ -21,3 +21,5 @@ RUN rm -rf *
 
 COPY --from=builder /usr/src/app/build .
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+CMD ["/bin/sh", "-c", "sed -i 's|__API_URL__|'\"$API_URL\"'|g' /usr/share/nginx/html/static/js/main.*.js ; exec  nginx -g 'daemon off;'"]

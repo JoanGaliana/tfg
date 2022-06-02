@@ -1,21 +1,16 @@
 version: '3'
 services:
   web:
-    build: 
-      context: ../front
-      args:
-        API_URL: http://localhost:8080
+    build: ../front
     image: front
-    container_name: front
     restart: always
     environment: 
-      API_URL: "ABC"
+      - API_URL=http://localhost:8080
     ports:
       - "3000:80"
   back:
     build: ../back
     image: back
-    container_name: back
     restart: always
     ports:
       - "8080:8080"
