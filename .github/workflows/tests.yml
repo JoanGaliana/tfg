@@ -100,6 +100,14 @@ jobs:
           tags: ${{ env.BACKEND_PRE_IMAGE_NAME }}
           cache-from: type=gha,scope=back
           cache-to: type=gha,mode=max,scope=back
+      
+      - name:  Deploy to pre
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: ${{ secrets.SSH_DEPLOY_CMD }}
 
       - name: Run e2e tests on pre
         uses: cypress-io/github-action@v2
