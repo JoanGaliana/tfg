@@ -37,8 +37,8 @@ jobs:
           push: false
           tags: back
           load: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Start containers
         run: docker-compose -f "./e2e/docker-compose.yml" up -d --no-build
@@ -52,4 +52,3 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # test image cache 
