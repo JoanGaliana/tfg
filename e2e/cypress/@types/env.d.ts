@@ -1,5 +1,7 @@
-import { User } from '../../../front/src/services/UsersService';
-import { Group } from "../../../front//src/services/GroupsService";
+import { components } from '../../../front/src/API_DEFS';
+
+export type User =  components["schemas"]["User"]
+export type Group =  components["schemas"]["Group"]
 
 declare global {
   namespace Cypress {

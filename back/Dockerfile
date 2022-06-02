@@ -3,12 +3,15 @@ FROM openjdk:17-jdk-alpine as builder
 
 WORKDIR /usr/src
 
-COPY mvnw* .
+COPY mvnw* ./
+RUN ["chmod", "+x", "mvnw"]
+
 COPY .mvn .mvn
 COPY pom.xml .
 RUN ./mvnw verify --fail-never
 
 COPY . ./
+RUN ["chmod", "+x", "mvnw"]
 RUN ./mvnw clean package
 
 # Actual container
