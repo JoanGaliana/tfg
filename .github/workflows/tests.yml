@@ -57,6 +57,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-pre-and-test:
+    needs: e2e-tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
