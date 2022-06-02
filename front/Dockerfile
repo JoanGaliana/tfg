@@ -4,7 +4,7 @@ FROM node:18-alpine as builder
 WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
-RUN npm i 
+RUN npm ci 
 
 ARG API_URL=backendurl
 ENV REACT_APP_API_URL=__API_URL__
