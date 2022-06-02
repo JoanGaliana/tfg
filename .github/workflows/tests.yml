@@ -27,8 +27,6 @@ jobs:
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            API_URL=http://localhost:8080
       
       - name: Build back image
         uses: docker/build-push-action@v2
