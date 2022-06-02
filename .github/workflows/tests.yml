@@ -3,7 +3,9 @@ on: [push]
 
 env:
   BACKEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-back-pre
-  FRONTEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-pre
+  FRONTEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-preç
+  PRE_BASE_URL: tfg.joangaliana.com
+  PRE_API_URL: back.tfg.joangaliana.com
 
 jobs:
   e2e-tests:
@@ -98,3 +100,15 @@ jobs:
           tags: ${{ env.BACKEND_PRE_IMAGE_NAME }}
           cache-from: type=gha,scope=back
           cache-to: type=gha,mode=max,scope=back
+
+      - name: Run e2e tests on pre
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          tag: GHA-PRE
+          working-directory: e2e
+          env: backendURL=${{ PRE_API_URL }}
+          config: baseUrl=${{ PRE_BASE_URL }}
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
