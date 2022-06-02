@@ -107,8 +107,8 @@ jobs:
           record: true
           tag: GHA-PRE
           working-directory: e2e
-          env: backendURL=${{ PRE_API_URL }}
-          config: baseUrl=${{ PRE_BASE_URL }}
+          env: backendURL=${{ env.PRE_API_URL }}
+          config: baseUrl=${{ env.PRE_BASE_URL }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
