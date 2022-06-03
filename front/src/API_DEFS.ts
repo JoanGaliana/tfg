@@ -19,6 +19,9 @@ export interface paths {
   "/groups/{id}": {
     get: operations["getGroupById"];
   };
+  "/groups/{id}/spendings": {
+    get: operations["getGroupSpendings"];
+  };
 }
 
 export interface components {
@@ -46,6 +49,15 @@ export interface components {
       id?: number;
       email?: string;
       username?: string;
+    };
+    Spending: {
+      /** Format: int64 */
+      id?: number;
+      name?: string;
+      /** Format: double */
+      amount?: number;
+      group?: components["schemas"]["Group"];
+      user?: components["schemas"]["User"];
     };
   };
 }
@@ -141,6 +153,27 @@ export interface operations {
       200: {
         content: {
           "*/*": components["schemas"]["Group"];
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  getGroupSpendings: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["Spending"][];
         };
       };
       /** Unauthorized */
