@@ -23,14 +23,11 @@ function Dashboard() {
   const onFabClick = () => navigate('/groups/new')
 
   return <React.Fragment>
-    <MainAppBar title="Mis grupos"/>
+    <MainAppBar title="Mis grupos" />
     <Box
       component="main"
       sx={{
-        mt: '5rem',
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
+        pt:'1rem'
       }}
     >
       <UserGroups userId={currentUserId}></UserGroups>

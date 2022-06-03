@@ -22,15 +22,11 @@ function GroupDashboard() {
     <Box
       component="main"
       sx={{
-        mt: '5rem',
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
+        pt:'1rem'
       }}
     >
       <Box sx={{
         mx: '5rem',
-        my: '1rem',
         mb: '1.5rem',
       }}>
         <Typography variant="h5" gutterBottom component="div">

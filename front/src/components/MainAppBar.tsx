@@ -17,12 +17,8 @@ function MainAppBar({ title, goBackUrl }: MainAppBarParams) {
 
   const { isSuccess, data: currentUser } = useCurrentUserQuery(authToken);
 
-  return <AppBar position="fixed">
-    <Toolbar
-      sx={{
-        pr: '24px', // keep right padding when drawer closed
-      }}
-    >
+  return <AppBar position="sticky">
+    <Toolbar>
       {!!goBackUrl &&
         <IconButton
           edge="start"
