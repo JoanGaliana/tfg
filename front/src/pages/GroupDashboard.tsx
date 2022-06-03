@@ -5,6 +5,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { useParams } from "react-router-dom";
 import { useGetGroupByIdQuery } from "../services/GroupsService";
 import { GroupBottomNavigation } from "../components/GroupBottomNavigation";
+import GroupSpendings from "../components/GroupSpendings";
 
 
 function GroupDashboard() {
@@ -22,7 +23,7 @@ function GroupDashboard() {
     <Box
       component="main"
       sx={{
-        pt:'1rem'
+        pt: '1rem'
       }}
     >
       <Box sx={{
@@ -35,6 +36,7 @@ function GroupDashboard() {
       </Box>
 
       <Divider />
+      <GroupSpendings groupId={id} />
       <GroupBottomNavigation active="spendings" groupId={id || ''}></GroupBottomNavigation>
     </Box>
   </React.Fragment>
