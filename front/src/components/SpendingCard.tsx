@@ -1,4 +1,5 @@
-import { Card, CardHeader } from "@mui/material"
+import { Avatar, Card, CardHeader, Grid, Typography, useTheme } from "@mui/material"
+import { group } from "console"
 import { components } from "../API_DEFS"
 
 interface SpendingCardParams {
@@ -6,10 +7,35 @@ interface SpendingCardParams {
 }
 
 function SpendingCard({ spending }: SpendingCardParams) {
-  return <Card data-cy="spending-card">
+  const userFirstLeter = (spending.user?.email || "?")[0].toUpperCase()
+  const theme = useTheme();
+
+  return <Card
+    data-cy="spending-card"
+    data-cy-name={spending.name}
+  >
     <CardHeader
-      title={spending.name}
-      subheader={spending.amount}
+      avatar={
+        <Avatar>
+          {userFirstLeter}
+        </Avatar>
+      }
+      title={
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+        >
+          <Grid item>{spending.name}</Grid>
+          <Grid item>
+            <Typography sx={{
+              fontWeight: 'bold',
+              color: theme.palette.primary.main,
+            }}>{spending.amount} €</Typography>
+          </Grid>
+        </Grid>
+      }
+      subheader={spending.user?.email || "Unkwnown"}
     />
   </Card>
 }

@@ -28,14 +28,13 @@ function GroupDashboard() {
     >
       <Box sx={{
         mx: '5rem',
-        mb: '1.5rem',
       }}>
         <Typography variant="h5" gutterBottom component="div">
           Gastos
         </Typography>
       </Box>
 
-      <Divider />
+      <Divider sx={{ my: "1.5rem" }} />
       <GroupSpendings groupId={id} />
       <GroupBottomNavigation active="spendings" groupId={id || ''}></GroupBottomNavigation>
     </Box>

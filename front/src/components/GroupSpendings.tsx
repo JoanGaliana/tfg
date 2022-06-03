@@ -17,7 +17,7 @@ function GroupSpendings({ groupId }: GroupCardParams) {
     {isLoading && <LoadingCardsSkeleton />}
 
     {isSuccess &&
-      <Grid container spacing={2} px={4}>{
+      <Grid container spacing={1} px={4}>{
         spendings.map(
           (spending) =>
             <Grid key={spending.id} item xs={12}>
