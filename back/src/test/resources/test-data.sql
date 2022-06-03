@@ -10,4 +10,9 @@ VALUES ('testGroup'),
 
 INSERT INTO GROUPS_USERS
     (GROUP_ID, USERS_ID)
-VALUES (1, 1)
+VALUES (1, 1);
+
+INSERT INTO SPENDINGS
+    (AMOUNT, NAME, GROUP_ID, USER_ID)
+VALUES (40.5, 'Hotel bill', 1, 2),
+       (30.5, 'Taxi', 1, 1);
