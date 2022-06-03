@@ -28,4 +28,11 @@ public class SpendingServiceTests {
         assertThat(spending999).isNull();
     }
 
+    @Test
+    @Transactional
+    void findByGroupId() {
+        var spendings = spendingService.getByGroupId(1L); // name = testSpending
+
+        assertThat(spendings).hasSize(2);
+    }
 }
