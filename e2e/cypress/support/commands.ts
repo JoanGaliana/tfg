@@ -23,10 +23,18 @@ Cypress.Commands.add("login", () => {
   const password = Cypress.env('password');
   const backendURL = Cypress.env('backendURL');
 
-  return cy.request("POST", `${backendURL}/login`, {
-    email,
-    password
-  }).then(response => {
+  const options: Partial<Cypress.RequestOptions> = {
+    method: "POST",
+    url: `${backendURL}/login`,
+    body: {
+      email,
+      password
+    },
+    
+    retryOnStatusCodeFailure: true, 
+  }
+
+  return cy.request(options).then(response => {
     if (response.status !== 201) {
       throw new Error(`Failed login ${response.status}`)
     }
