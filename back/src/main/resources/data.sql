@@ -27,4 +27,10 @@ VALUES (1, 1)
      , (6, 1)
      , (7, 1)
      , (8, 1)
-     , (9, 2)
+     , (9, 2);
+
+INSERT INTO SPENDINGS
+(AMOUNT, NAME, GROUP_ID, USER_ID)
+VALUES (40.5, 'Hotel bill', 1, 2),
+       (30.5, 'Diner', 2, 2),
+       (30.5, 'Taxi', 1, 1);
