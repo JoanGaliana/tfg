@@ -4,7 +4,8 @@
   "description": "End to end tests",
   "main": "index.js",
   "scripts": {
-    "start": "npx cypress run"
+    "start": "npx cypress run",
+    "open": "npx cypress open"
   },
   "dependencies": {
     "cypress": "^9.5.3",
