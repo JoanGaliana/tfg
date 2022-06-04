@@ -1,6 +1,9 @@
 package com.galiana.tfg.api;
 
+import com.galiana.tfg.exceptions.GroupNotFoundException;
 import com.galiana.tfg.exceptions.InvalidCredentials;
+import com.galiana.tfg.exceptions.UserNotFoundException;
+import com.galiana.tfg.exceptions.UserNotInGroupException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,5 +24,29 @@ public class ErrorHandler {
         var apiError = new ApiError("INVALID_CREDENTIALS", LocalDateTime.now().toString(), "");
 
         return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ApiError> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        var apiError = new ApiError("USER_NOT_FOUND", LocalDateTime.now().toString(), "");
+
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ApiError> handleGroupNotFoundException(GroupNotFoundException ex, WebRequest request) {
+        var apiError = new ApiError("GROUP_NOT_FOUND", LocalDateTime.now().toString(), "");
+
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserNotInGroupException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> handleUserNotInGroupException(UserNotInGroupException ex, WebRequest request) {
+        var apiError = new ApiError("USER_NOT_IN_GROUP", LocalDateTime.now().toString(), "");
+
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 }

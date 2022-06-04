@@ -23,8 +23,8 @@ public class GroupServiceTests {
         var aliceGroups = groupService.findByUserId(1L);
         var bobGroups = groupService.findByUserId(2L);
 
-        assertThat(aliceGroups).hasSize(1);
-        assertThat(bobGroups).hasSize(1);
+        assertThat(aliceGroups).hasSize(2);
+        assertThat(bobGroups).hasSize(2);
 
         var aliceGroup = aliceGroups.iterator().next();
         var bobGroup = bobGroups.iterator().next();

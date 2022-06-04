@@ -6,12 +6,15 @@ VALUES (TRUE, TRUE, TRUE, 'alicia@test.com', TRUE, '$2a$10$7eSfXu48ngO1VEMKQCb5E
 INSERT INTO GROUPS
     (NAME)
 VALUES ('testGroup'),
-       ('testGroup2');
+       ('testGroup2'),
+       ('testGroup3');
 
 INSERT INTO GROUPS_USERS
     (GROUP_ID, USERS_ID)
 VALUES (1, 1),
-       (2, 2);
+       (2, 2),
+       (3, 1),
+       (3, 2);
 
 INSERT INTO SPENDINGS
     (AMOUNT, NAME, GROUP_ID, USER_ID)
