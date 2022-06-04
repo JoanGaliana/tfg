@@ -1,11 +1,14 @@
 package com.galiana.tfg.service;
 
+import com.galiana.tfg.model.Group;
 import com.galiana.tfg.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
+
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +24,13 @@ public class GroupServiceTests {
         var bobGroups = groupService.findByUserId(2L);
 
         assertThat(aliceGroups).hasSize(1);
-        assertThat(bobGroups).isEmpty();
+        assertThat(bobGroups).hasSize(1);
+
+        var aliceGroup = aliceGroups.iterator().next();
+        var bobGroup = bobGroups.iterator().next();
+
+        assertThat(aliceGroup.getId()).isEqualTo(1L);
+        assertThat(bobGroup.getId()).isEqualTo(2L);
     }
 
     @Test
