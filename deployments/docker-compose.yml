@@ -4,6 +4,7 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
+      - ${CERTS_DIR}:/certs/
     depends_on:
       - front-pre
       - back-pre
@@ -18,13 +19,11 @@ services:
       - back-pre
 
   front-pre:
-    build: ../front
-    image: front
+    image: ghcr.io/joangaliana/tfg-front-pre:latest
     restart: always
     environment: 
-      - API_URL=http://${BACK_PRE_URL}
+      - API_URL=https://${BACK_PRE_URL}
 
   back-pre:
-    build: ../back
-    image: back
+    image: ghcr.io/joangaliana/tfg-back-pre:latest
     restart: always
