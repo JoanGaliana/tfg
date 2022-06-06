@@ -1,5 +1,4 @@
 import { Avatar, Card, CardHeader, Grid, Typography, useTheme } from "@mui/material"
-import { group } from "console"
 import { components } from "../API_DEFS"
 
 interface SpendingCardParams {
