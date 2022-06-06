@@ -4,6 +4,9 @@
  */
 
 export interface paths {
+  "/spendings": {
+    post: operations["createNewSpending"];
+  };
   "/login": {
     post: operations["loginByPassword"];
   };
@@ -30,6 +33,15 @@ export interface components {
       error?: string;
       timestamp?: string;
       details?: string;
+    };
+    SpendigData: {
+      name?: string;
+      /** Format: double */
+      amount?: number;
+      /** Format: int64 */
+      userId?: number;
+      /** Format: int64 */
+      groupId?: number;
     };
     LoginData: {
       email?: string;
@@ -63,6 +75,39 @@ export interface components {
 }
 
 export interface operations {
+  createNewSpending: {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": number;
+        };
+      };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SpendigData"];
+      };
+    };
+  };
   loginByPassword: {
     responses: {
       /** OK */
@@ -71,8 +116,20 @@ export interface operations {
           "*/*": string;
         };
       };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
       /** Unauthorized */
       401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
@@ -92,8 +149,20 @@ export interface operations {
           "*/*": number;
         };
       };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
       /** Unauthorized */
       401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
@@ -118,8 +187,20 @@ export interface operations {
           "*/*": components["schemas"]["Group"][];
         };
       };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
       /** Unauthorized */
       401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
@@ -134,8 +215,20 @@ export interface operations {
           "*/*": components["schemas"]["User"];
         };
       };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
       /** Unauthorized */
       401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
@@ -155,8 +248,20 @@ export interface operations {
           "*/*": components["schemas"]["Group"];
         };
       };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
       /** Unauthorized */
       401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
@@ -176,8 +281,20 @@ export interface operations {
           "*/*": components["schemas"]["Spending"][];
         };
       };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
       /** Unauthorized */
       401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
