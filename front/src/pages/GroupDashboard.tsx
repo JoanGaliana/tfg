@@ -1,29 +1,39 @@
-import { Box, Divider, Typography } from "@mui/material"
+import { Box, Divider, Fab, Typography } from "@mui/material"
 import React, { useContext } from "react"
 import MainAppBar from "../components/MainAppBar";
 import { AuthContext } from "../contexts/AuthContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetGroupByIdQuery } from "../services/GroupsService";
 import { GroupBottomNavigation } from "../components/GroupBottomNavigation";
 import GroupSpendings from "../components/GroupSpendings";
+import AddIcon from '@mui/icons-material/Add';
 
+
+const fabStyles = {
+  position: 'fixed',
+  bottom: '5rem',
+  right: '2rem'
+}
 
 function GroupDashboard() {
   const { authToken } = useContext(AuthContext)
 
-  let { id } = useParams();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data } = useGetGroupByIdQuery(id, authToken)
 
   const title = data?.name || "Grupo";
   const goBackUrl = "/dashboard";
+  const onFabClick = () => navigate(`/groups/${id}/create-spending`)
 
   return <React.Fragment>
     <MainAppBar title={title} goBackUrl={goBackUrl} />
     <Box
       component="main"
       sx={{
-        pt: '1rem'
+        pt: '1rem',
+        pb: '6rem',
       }}
     >
       <Box sx={{
@@ -36,8 +46,12 @@ function GroupDashboard() {
 
       <Divider sx={{ my: "1.5rem" }} />
       <GroupSpendings groupId={id} />
-      <GroupBottomNavigation active="spendings" groupId={id || ''}></GroupBottomNavigation>
+      <Fab color="primary" aria-label="add" sx={fabStyles} onClick={onFabClick} data-cy="create-spending">
+        <AddIcon />
+      </Fab>
     </Box>
+
+    <GroupBottomNavigation active="spendings" groupId={id || ''}></GroupBottomNavigation>
   </React.Fragment>
 }
 

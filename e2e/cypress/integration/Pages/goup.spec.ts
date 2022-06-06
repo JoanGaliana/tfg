@@ -40,6 +40,11 @@ describe('Group page', () => {
     cy.get('[data-cy=nav-back]').click();
     cy.url().should('contain', 'dashboard')
   });
+
+  it('Has new spending button', () => {
+    cy.get('[data-cy=create-spending]').click();
+    cy.url().should('contain', '/groups/1/create-spending');
+  });
 });
 
 
