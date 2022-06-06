@@ -26,20 +26,20 @@ public class SpendingsController {
         return spendingService.getByGroupId(id);
     }
 
-    private record SpendigData(String name, double amount, Long userId, Long groupId) {
+    private record SpendigData(String name, double amount, Long userId) {
     }
 
-    @PostMapping("/spendings")
-    ResponseEntity<Long> createNewSpending(@RequestBody SpendigData createSpendingData) {
+    @PostMapping("/groups/{groupId}/spendings")
+    ResponseEntity<Long> createNewSpending(@PathVariable Long groupId,@RequestBody SpendigData createSpendingData) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
 
-        boolean userInGroup = groupService.isUserInGroup(currentUser.getId(), createSpendingData.groupId);
+        boolean userInGroup = groupService.isUserInGroup(currentUser.getId(), groupId);
         if (!userInGroup) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Spending newSpending = spendingService.create(createSpendingData.name, createSpendingData.amount, createSpendingData.userId, createSpendingData.groupId);
+        Spending newSpending = spendingService.create(createSpendingData.name, createSpendingData.amount, createSpendingData.userId, groupId);
 
         return new ResponseEntity<>(newSpending.getId(), HttpStatus.CREATED);
     }

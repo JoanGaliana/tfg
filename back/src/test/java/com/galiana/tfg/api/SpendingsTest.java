@@ -45,13 +45,12 @@ public class SpendingsTest {
                                 {
                                   "name": "Chinese restaurant",
                                   "amount": 45.2,
-                                  "userId": 2,
-                                  "groupId" : 3
+                                  "userId": 2
                                 }
                 """;
 
         var createdSpendingId = this.mockMvc.perform(
-                        post("/spendings")
+                        post("/groups/3/spendings")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(body)
                 )
@@ -75,13 +74,12 @@ public class SpendingsTest {
                                 {
                                   "name": "Chinese restaurant",
                                   "amount": 45.2,
-                                  "userId": 2,
-                                  "groupId" : 2
+                                  "userId": 2
                                 }
                 """;
 
         this.mockMvc.perform(
-                        post("/spendings")
+                        post("/groups/2/spendings")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(body)
                 )
@@ -96,13 +94,12 @@ public class SpendingsTest {
                                 {
                                   "name": "Chinese restaurant",
                                   "amount": 45.2,
-                                  "userId": 999,
-                                  "groupId" : 1
+                                  "userId": 999
                                 }
                 """;
 
         this.mockMvc.perform(
-                        post("/spendings")
+                        post("/groups/1/spendings")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(body)
                 )
@@ -118,13 +115,12 @@ public class SpendingsTest {
                                 {
                                   "name": "Chinese restaurant",
                                   "amount": 45.2,
-                                  "userId": 2,
-                                  "groupId" : 1
+                                  "userId": 2
                                 }
                 """;
 
         this.mockMvc.perform(
-                        post("/spendings")
+                        post("/groups/1/spendings")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(body)
                 )
