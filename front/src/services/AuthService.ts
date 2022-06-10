@@ -1,15 +1,17 @@
-import axios from 'axios';
-import { operations } from '../API_DEFS';
-import { API_URL } from './ConfigService';
+import axios from "axios";
+import { operations } from "../API_DEFS";
+import { API_URL } from "./ConfigService";
 
-type loginResponse = operations['loginByPassword']["responses"]["200"]["content"]["*/*"];
-type LoginRequestParameters = operations['loginByPassword']["requestBody"]["content"]["application/json"];
+type LoginResponse =
+  operations["loginByPassword"]["responses"]["200"]["content"]["*/*"];
+type LoginRequestParameters =
+  operations["loginByPassword"]["requestBody"]["content"]["application/json"];
 
 export function loginRequest(payload: LoginRequestParameters) {
-  return axios.post<loginResponse>(`${API_URL}/login`, payload)
+  return axios.post<LoginResponse>(`${API_URL}/login`, payload);
 }
 
-const AUTH_TOKEN_KEY = "authToken"
+const AUTH_TOKEN_KEY = "authToken";
 
 export function getStoredAuthToken(): string {
   return localStorage.getItem(AUTH_TOKEN_KEY) || "";
@@ -25,6 +27,6 @@ export function clearStoredAuthToken() {
 
 export function getAuthenticationHeaders(authToken: string) {
   return {
-    'Authorization': `Bearer ${authToken}`
-  }
+    Authorization: `Bearer ${authToken}`,
+  };
 }

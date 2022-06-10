@@ -1,54 +1,82 @@
-import { Card, CardHeader, Grid, Skeleton } from "@mui/material"
-import React, { useContext } from "react"
-import { AuthContext } from "../contexts/AuthContext"
-import { useUserGroupsQuery } from "../services/GroupsService"
-import GroupCard from "./GroupCard"
+import { Card, CardHeader, Grid, Skeleton } from "@mui/material";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { useUserGroupsQuery } from "../services/GroupsService";
+import GroupCard from "./GroupCard";
 
 interface GroupCardParams {
-  userId?: number
+  userId: number | undefined;
 }
 
 function UserGroups({ userId }: GroupCardParams) {
   const { authToken } = useContext(AuthContext);
 
-  const { isSuccess, isLoading, data: groups } = useUserGroupsQuery(userId, authToken);
+  const {
+    isSuccess,
+    isLoading,
+    data: groups,
+  } = useUserGroupsQuery(userId, authToken);
 
-  return <React.Fragment>
-    {isLoading && <LoadingCardsSkeleton />}
+  return (
+    <>
+      {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        isLoading && <LoadingCardsSkeleton />
+      }
 
-    {isSuccess && <Grid container spacing={2} px={4}>{
-      groups.map((group) =>
-        <Grid key={group.id} item md={6} xs={12} lg={4}>
-          <GroupCard group={group}></GroupCard>
+      {isSuccess && (
+        <Grid container spacing={2} px={4}>
+          {groups.map((group) => (
+            <Grid key={group.id} item md={6} xs={12} lg={4}>
+              <GroupCard group={group} />
+            </Grid>
+          ))}
         </Grid>
-      )
-    }</Grid>}
-
-  </React.Fragment>
+      )}
+    </>
+  );
 }
 
 function LoadingCardSkeleton() {
-  return <Card>
-    <CardHeader avatar={
-      <Skeleton animation="wave" variant="circular" width={40} height={40} />}
-      title={<Skeleton animation="wave" height={10} width="90%" style={{ marginBottom: 6 }} />}
-      subheader={<Skeleton animation="wave" height={10} width="40%" />}
-    />
-  </Card>
+  return (
+    <Card>
+      <CardHeader
+        avatar={
+          <Skeleton
+            animation="wave"
+            variant="circular"
+            width={40}
+            height={40}
+          />
+        }
+        title={
+          <Skeleton
+            animation="wave"
+            height={10}
+            width="90%"
+            style={{ marginBottom: 6 }}
+          />
+        }
+        subheader={<Skeleton animation="wave" height={10} width="40%" />}
+      />
+    </Card>
+  );
 }
 
 function LoadingCardsSkeleton() {
-  return <Grid container spacing={2} px={4}>
-    <Grid item md={6} xs={12} lg={4}>
-      <LoadingCardSkeleton />
+  return (
+    <Grid container spacing={2} px={4}>
+      <Grid item md={6} xs={12} lg={4}>
+        <LoadingCardSkeleton />
+      </Grid>
+      <Grid item md={6} xs={12} lg={4}>
+        <LoadingCardSkeleton />
+      </Grid>
+      <Grid item md={6} xs={12} lg={4}>
+        <LoadingCardSkeleton />
+      </Grid>
     </Grid>
-    <Grid item md={6} xs={12} lg={4}>
-      <LoadingCardSkeleton />
-    </Grid>
-    <Grid item md={6} xs={12} lg={4}>
-      <LoadingCardSkeleton />
-    </Grid>
-  </Grid>
+  );
 }
 
-export default UserGroups
+export default UserGroups;
