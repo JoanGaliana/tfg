@@ -1,14 +1,11 @@
 package com.galiana.tfg.service;
 
-import com.galiana.tfg.model.Group;
 import com.galiana.tfg.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -65,5 +62,39 @@ public class GroupServiceTests {
         assertThat(groupService.isUserInGroup(1L, 1L)).isTrue();
         assertThat(groupService.isUserInGroup(1L, 2L)).isFalse();
         assertThat(groupService.isUserInGroup(99L, 99L)).isFalse();
+    }
+
+    @Autowired
+    private SpendingService spendingService;
+
+    @Test
+    @Transactional
+    void findMembersByGroupId() {
+        var members = groupService.findMembersByGroupId(1L);
+        var a = spendingService.getByGroupId(1L);
+
+        assertThat(members)
+                .anyMatch(member -> member.id() == 1 && member.email().equals("alicia@test.com") && member.totalSpent() == 30.5)
+                .noneMatch(member -> member.id() == 2);
+    }
+
+    @Test
+    @Transactional
+    void findMembersByGroupIdWithoutSpendings() {
+        var members = groupService.findMembersByGroupId(3L);
+
+        assertThat(members)
+                .anyMatch(member -> member.id() == 1 && member.totalSpent() == 0.0)
+                .anyMatch(member -> member.id() == 2 && member.totalSpent() == 45.5);
+    }
+
+    @Test
+    @Transactional
+    void findMembersByGroupIdOnlyGroupMembers() {
+        var members = groupService.findMembersByGroupId(2L);
+
+        assertThat(members)
+                .noneMatch(member -> member.id() == 1)
+                .anyMatch(member -> member.id() == 2);
     }
 }

@@ -4,14 +4,14 @@
  */
 
 export interface paths {
-  "/spendings": {
-    post: operations["createNewSpending"];
-  };
   "/login": {
     post: operations["loginByPassword"];
   };
   "/groups": {
     post: operations["createNewGroup"];
+  };
+  "/groups/{groupId}/spendings": {
+    post: operations["createNewSpending"];
   };
   "/users/{id}/groups": {
     get: operations["getUserGroups"];
@@ -25,6 +25,9 @@ export interface paths {
   "/groups/{id}/spendings": {
     get: operations["getGroupSpendings"];
   };
+  "/groups/{id}/members": {
+    get: operations["getGroupMembersById"];
+  };
 }
 
 export interface components {
@@ -34,21 +37,19 @@ export interface components {
       timestamp?: string;
       details?: string;
     };
-    SpendigData: {
-      name?: string;
-      /** Format: double */
-      amount?: number;
-      /** Format: int64 */
-      userId?: number;
-      /** Format: int64 */
-      groupId?: number;
-    };
     LoginData: {
       email?: string;
       password?: string;
     };
     CreateGroupData: {
       name?: string;
+    };
+    SpendigData: {
+      name?: string;
+      /** Format: double */
+      amount?: number;
+      /** Format: int64 */
+      userId?: number;
     };
     Group: {
       /** Format: int64 */
@@ -71,43 +72,17 @@ export interface components {
       group?: components["schemas"]["Group"];
       user?: components["schemas"]["User"];
     };
+    Member: {
+      /** Format: int64 */
+      id: number;
+      email: string;
+      /** Format: double */
+      totalSpent: number;
+    };
   };
 }
 
 export interface operations {
-  createNewSpending: {
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          "*/*": number;
-        };
-      };
-      /** Bad Request */
-      400: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
-      404: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["SpendigData"];
-      };
-    };
-  };
   loginByPassword: {
     responses: {
       /** OK */
@@ -171,6 +146,44 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["CreateGroupData"];
+      };
+    };
+  };
+  createNewSpending: {
+    parameters: {
+      path: {
+        groupId: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": number;
+        };
+      };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SpendigData"];
       };
     };
   };
@@ -279,6 +292,39 @@ export interface operations {
       200: {
         content: {
           "*/*": components["schemas"]["Spending"][];
+        };
+      };
+      /** Bad Request */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Unauthorized */
+      401: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Not Found */
+      404: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  getGroupMembersById: {
+    parameters: {
+      path: {
+        id: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["Member"][];
         };
       };
       /** Bad Request */

@@ -1,5 +1,6 @@
 package com.galiana.tfg.service;
 
+import com.galiana.tfg.api.Data.Member;
 import com.galiana.tfg.model.Group;
 import com.galiana.tfg.model.User;
 import com.galiana.tfg.repository.GroupRepository;
@@ -33,5 +34,9 @@ public class GroupService {
 
     public boolean isUserInGroup(long userId, long groupId) {
         return groupRepository.existsByIdAndUsers_id(groupId, userId);
+    }
+
+    public Set<Member> findMembersByGroupId(Long groupId){
+        return groupRepository.findMembersByGroupId(groupId);
     }
 }

@@ -29,6 +29,29 @@ export function useGroupSpendingsQuery(
   );
 }
 
+type GetGroupMembersResponse =
+  operations["getGroupMembersById"]["responses"]["200"]["content"]["*/*"];
+
+export function useGroupMembersQuery(
+  groupId: string | undefined,
+  authToken: string
+) {
+  const headers = getAuthenticationHeaders(authToken);
+
+  return useQuery(
+    ["groupMembers", groupId],
+    ({ signal }) =>
+      axios.get<GetGroupMembersResponse>(
+        `${API_URL}/groups/${groupId}/members`,
+        { signal, headers }
+      ),
+    {
+      enabled: groupId !== undefined,
+      select: (response) => response.data,
+    }
+  );
+}
+
 export type CreateNewSpendingRequest =
   operations["createNewSpending"]["requestBody"]["content"]["application/json"];
 type CreateNewSpendingResponse =
@@ -40,6 +63,9 @@ interface UseCreateSpendingMutationParams {
   groupId: string;
 }
 
+interface GroupIdData {
+  groupId: number;
+}
 export function useCreateSpendingMutation({
   onSuccess,
   authToken,
@@ -47,7 +73,7 @@ export function useCreateSpendingMutation({
   const headers = getAuthenticationHeaders(authToken);
 
   return useMutation(
-    (data: CreateNewSpendingRequest) =>
+    (data: CreateNewSpendingRequest & GroupIdData) =>
       axios.post<CreateNewSpendingResponse>(
         `${API_URL}/groups/${data.groupId}/spendings`,
         data,

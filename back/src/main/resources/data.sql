@@ -33,4 +33,6 @@ INSERT INTO SPENDINGS
 (AMOUNT, NAME, GROUP_ID, USER_ID)
 VALUES (40.5, 'Hotel', 1, 2),
        (30.5, 'Comida', 2, 2),
-       (30.5, 'Taxi', 1, 1);
+       (30.5, 'Taxi', 1, 1),
+       (40.3, 'Compra agua', 4, 1),
+       (10, 'Compra clips', 4, 1);

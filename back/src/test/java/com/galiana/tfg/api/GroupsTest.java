@@ -85,4 +85,38 @@ public class GroupsTest {
                 )
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    public void getGroupMembers() throws Exception {
+        this.mockMvc.perform(
+                        get("/groups/3/members")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].email").value("alicia@test.com"))
+                .andExpect(jsonPath("$.[0].totalSpent").value(0))
+                .andExpect(jsonPath("$.[1].email").value("bernardo@test2.com"))
+                .andExpect(jsonPath("$.[1].totalSpent").value(45.5));
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    public void getGroupMembersNotFound() throws Exception {
+        this.mockMvc.perform(
+                        get("/groups/9999/members")
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    public void getGroupMembersForbiddenNotMember() throws Exception {
+        this.mockMvc.perform(
+                        get("/groups/2/members")
+                )
+                .andExpect(status().isForbidden());
+    }
 }
