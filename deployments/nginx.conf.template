@@ -1,3 +1,45 @@
+# Backend production server
+server {
+    listen 80 default_server;
+    listen 443 ssl;
+
+    server_name ${BACK_URL};
+    
+    ssl_certificate           /certs/live/${BACK_URL}/fullchain.pem;
+    ssl_certificate_key       /certs/live/${BACK_URL}/privkey.pem;
+    
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } 
+
+    location / {
+        proxy_pass http://back:8080;
+        proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# Frontend production server
+server {
+    listen 80;
+    listen 443 ssl;
+
+    server_name ${FRONT_URL};
+    
+    ssl_certificate           /certs/live/${FRONT_URL}/fullchain.pem;
+    ssl_certificate_key       /certs/live/${FRONT_URL}/privkey.pem;
+
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } 
+
+    location / {
+        proxy_pass http://front;
+        proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
 # Backend pre server
 server {
     listen 80 default_server;

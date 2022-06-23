@@ -8,15 +8,21 @@ services:
     depends_on:
       - front-pre
       - back-pre
+      - front
+      - back
     environment:
       - BACK_PRE_URL=${BACK_PRE_URL}
       - FRONT_PRE_URL=${FRONT_PRE_URL}
+      - BACK_URL=${BACK_URL}
+      - FRONT_URL=${FRONT_URL}
     ports:
       - "80:80"
       - "443:443"
     links:
       - front-pre
       - back-pre
+      - front
+      - back
 
   front-pre:
     image: ghcr.io/joangaliana/tfg-front-pre:latest
@@ -26,4 +32,14 @@ services:
 
   back-pre:
     image: ghcr.io/joangaliana/tfg-back-pre:latest
+    restart: always
+ 
+  front:
+    image: ghcr.io/joangaliana/tfg-front:latest
+    restart: always
+    environment: 
+      - API_URL=https://${BACK_URL}
+
+  back:
+    image: ghcr.io/joangaliana/tfg-back:latest
     restart: always
