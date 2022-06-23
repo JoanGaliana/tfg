@@ -56,10 +56,9 @@ jobs:
         run: docker-compose -f "./e2e/docker-compose.yml" up -d --no-build
       
       - name: Run e2e tests
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
           working-directory: e2e
-          record: false
           tag: GHA
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
@@ -120,9 +119,8 @@ jobs:
           script: ${{ secrets.SSH_DEPLOY_CMD }}
 
       - name: Run e2e tests on pre
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
-          record: false
           tag: GHA-PRE
           working-directory: e2e
           env: backendURL=${{ env.PRE_API_URL }}
@@ -186,9 +184,8 @@ jobs:
           script: ${{ secrets.SSH_DEPLOY_CMD }}
 
       - name: Run e2e tests on production
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
-          record: false
           tag: GHA-PROD
           working-directory: e2e
           env: backendURL=${{ env.API_URL }}
