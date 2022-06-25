@@ -124,7 +124,7 @@ public class SpendingsTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(body)
                 )
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.error").value("USER_NOT_IN_GROUP"));
     }
 }

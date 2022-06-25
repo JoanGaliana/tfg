@@ -1,5 +1,8 @@
 package com.galiana.tfg.service;
 
+import com.galiana.tfg.exceptions.GroupNotFoundException;
+import com.galiana.tfg.exceptions.UserNotFoundException;
+import com.galiana.tfg.exceptions.UserNotInGroupException;
 import com.galiana.tfg.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 
+import java.util.Objects;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class GroupServiceTests {
@@ -96,5 +102,45 @@ public class GroupServiceTests {
         assertThat(members)
                 .noneMatch(member -> member.id() == 1)
                 .anyMatch(member -> member.id() == 2);
+    }
+
+    @Test
+    @Transactional
+    void addMember() {
+        groupService.addMember(1L, 1L, "bernardo@test2.com");
+
+        var group = groupService.findById(1L);
+
+        assertThat(group.getUsers()).anyMatch((user) -> Objects.equals(user.getEmail(), "bernardo@test2.com"));
+    }
+
+    @Test
+    @Transactional
+    void addMemberAlreadyInGroup() {
+        groupService.addMember(1L, 3L, "bernardo@test2.com");
+
+        var group = groupService.findById(3L);
+
+        assertThat(group.getUsers()).anyMatch((user) -> Objects.equals(user.getEmail(), "bernardo@test2.com"));
+    }
+
+    @Test
+    @Transactional
+    void addMemberUserNotInGroup() {
+        assertThatThrownBy(() -> groupService.addMember(2L, 1L, "bernardo@test2.com"))
+                .isInstanceOf(UserNotInGroupException.class);
+    }
+
+    @Test
+    @Transactional
+    void addMemberUserNotFound() {
+        assertThatThrownBy(() -> groupService.addMember(1L, 1L, "no@exists.com"))
+                .isInstanceOf(UserNotFoundException.class);
+    }
+    @Test
+    @Transactional
+    void addMemberGroupNotFound() {
+        assertThatThrownBy(() -> groupService.addMember(1L, 999L, "bernardo@test2.com"))
+                .isInstanceOf(GroupNotFoundException.class);
     }
 }

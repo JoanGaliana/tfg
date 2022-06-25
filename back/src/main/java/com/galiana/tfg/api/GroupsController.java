@@ -1,5 +1,6 @@
 package com.galiana.tfg.api;
 
+import com.galiana.tfg.api.Data.AddMemberData;
 import com.galiana.tfg.api.Data.CreateGroupData;
 import com.galiana.tfg.api.Data.Member;
 import com.galiana.tfg.model.Group;
@@ -121,5 +122,34 @@ public class GroupsController {
         Set<Member> members = groupService.findMembersByGroupId(id);
 
         return new ResponseEntity<>(members, HttpStatus.OK);
+    }
+
+    @PostMapping("/groups/{id}/members")
+    @Operation(
+            summary = "Add member to group",
+            parameters = {
+                    @Parameter(in = ParameterIn.PATH, name = "id", description = "Group id")
+            },
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Added member"),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Authenticated user isn't member of group",
+                            content = @Content(schema = @Schema(implementation = ErrorHandler.ApiError.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Group or member not found",
+                            content = @Content(schema = @Schema(implementation = ErrorHandler.ApiError.class))
+                    ),
+            }
+    )
+    ResponseEntity addMemberToGroup(@PathVariable Long id, @RequestBody AddMemberData addMemberData) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+
+        groupService.addMember(currentUser.getId(), id, addMemberData.email());
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

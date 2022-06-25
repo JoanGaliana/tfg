@@ -47,11 +47,11 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(UserNotInGroupException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @Hidden
     public ResponseEntity<ApiError> handleUserNotInGroupException(UserNotInGroupException ex, WebRequest request) {
         var apiError = new ApiError("USER_NOT_IN_GROUP", LocalDateTime.now().toString(), "");
 
-        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiError, HttpStatus.FORBIDDEN);
     }
 }

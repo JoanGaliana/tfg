@@ -1,6 +1,8 @@
 package com.galiana.tfg.api;
 
+
 import com.galiana.tfg.repository.GroupRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,6 +12,8 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
+
+import java.util.Objects;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -57,7 +61,7 @@ public class GroupsTest {
     @WithUserDetails("alicia@test.com")
     public void getGroupById() throws Exception {
         // Alicia is in group 1
-         this.mockMvc.perform(
+        this.mockMvc.perform(
                         get("/groups/1")
                 )
                 .andExpect(status().isOk())
@@ -67,7 +71,7 @@ public class GroupsTest {
     @Test
     @Transactional
     @WithUserDetails("alicia@test.com")
-    public void getGroupByIdNotFound () throws Exception {
+    public void getGroupByIdNotFound() throws Exception {
         // Alicia is not in group 2
         this.mockMvc.perform(
                         get("/groups/99999")
@@ -78,7 +82,7 @@ public class GroupsTest {
     @Test
     @Transactional
     @WithUserDetails("alicia@test.com")
-    public void getGroupByIdForbidden () throws Exception {
+    public void getGroupByIdForbidden() throws Exception {
         // Alicia is not in group 2
         this.mockMvc.perform(
                         get("/groups/2")
@@ -118,5 +122,103 @@ public class GroupsTest {
                         get("/groups/2/members")
                 )
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    void addMember() throws Exception {
+        var body = """
+                                {
+                                  "email": "bernardo@test2.com"
+                                }
+                """;
+
+        this.mockMvc.perform(
+                        post("/groups/1/members")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body)
+                )
+                .andExpect(status().isCreated());
+
+        var group = groupRepository.findById(1L).orElseThrow();
+
+        Assertions.assertThat(group.getUsers()).anyMatch((user) -> Objects.equals(user.getEmail(), "bernardo@test2.com"));
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    void addMemberAlreadyInGroup() throws Exception {
+        var body = """
+                                {
+                                  "email": "bernardo@test2.com"
+                                }
+                """;
+
+        this.mockMvc.perform(
+                        post("/groups/3/members")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body)
+                )
+                .andExpect(status().isCreated());
+
+        var group = groupRepository.findById(3L).orElseThrow();
+
+        Assertions.assertThat(group.getUsers()).anyMatch((user) -> Objects.equals(user.getEmail(), "bernardo@test2.com"));
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    void addMemberUserNotInGroup() throws Exception {
+        var body = """
+                                {
+                                  "email": "bernardo@test2.com"
+                                }
+                """;
+
+        this.mockMvc.perform(
+                        post("/groups/2/members")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body)
+                )
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    void addMemberUserNotFound() throws Exception {
+        var body = """
+                                {
+                                  "email": "not@exists.com"
+                                }
+                """;
+
+        this.mockMvc.perform(
+                        post("/groups/1/members")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body)
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    void addMemberGroupNotFound() throws Exception {
+        var body = """
+                                {
+                                  "email": "bernardo@test2.com"
+                                }
+                """;
+
+        this.mockMvc.perform(
+                        post("/groups/9999/members")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body)
+                )
+                .andExpect(status().isNotFound());
     }
 }
