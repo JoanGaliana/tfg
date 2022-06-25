@@ -1,5 +1,6 @@
 package com.galiana.tfg.api;
 
+import com.galiana.tfg.api.Data.CreateGroupData;
 import com.galiana.tfg.api.Data.Member;
 import com.galiana.tfg.model.Group;
 import com.galiana.tfg.model.User;
@@ -26,9 +27,6 @@ import java.util.Set;
 public class GroupsController {
     private final GroupService groupService;
 
-    private record CreateGroupData(String name) {
-    }
-
     @PostMapping("/groups")
     @Operation(
             summary = "Create new group",
@@ -41,7 +39,7 @@ public class GroupsController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
 
-        Group newGroup = groupService.create(createGroupData.name, currentUser);
+        Group newGroup = groupService.create(createGroupData.name(), currentUser);
 
         return new ResponseEntity<>(newGroup.getId(), HttpStatus.CREATED);
     }

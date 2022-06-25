@@ -1,5 +1,6 @@
 package com.galiana.tfg.api;
 
+import com.galiana.tfg.api.Data.LoginData;
 import com.galiana.tfg.config.security.JwtTokenUtil;
 import com.galiana.tfg.exceptions.InvalidCredentials;
 import com.galiana.tfg.model.Group;
@@ -36,9 +37,6 @@ public class UsersController {
     private final GroupService groupService;
     private final UserService userService;
 
-    private record LoginData(String email, String password) {
-    }
-
     @PostMapping("login")
     @Operation(
             summary = "Get auth token by user's email and password",
@@ -53,7 +51,7 @@ public class UsersController {
     )
     ResponseEntity<String> loginByPassword(@RequestBody @Valid LoginData loginData) {
         try {
-            Authentication data = new UsernamePasswordAuthenticationToken(loginData.email, loginData.password);
+            Authentication data = new UsernamePasswordAuthenticationToken(loginData.email(), loginData.password());
             Authentication authenticate = authenticationManager.authenticate(data);
 
             User user = (User) authenticate.getPrincipal();

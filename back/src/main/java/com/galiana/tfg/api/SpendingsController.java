@@ -1,5 +1,6 @@
 package com.galiana.tfg.api;
 
+import com.galiana.tfg.api.Data.SpendigData;
 import com.galiana.tfg.model.Spending;
 import com.galiana.tfg.model.User;
 import com.galiana.tfg.service.GroupService;
@@ -42,9 +43,6 @@ public class SpendingsController {
         return spendingService.getByGroupId(id);
     }
 
-    private record SpendigData(String name, double amount, Long userId) {
-    }
-
     @PostMapping("/groups/{groupId}/spendings")
     @Operation(
             summary = "Creates a new spending on group",
@@ -75,7 +73,7 @@ public class SpendingsController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Spending newSpending = spendingService.create(createSpendingData.name, createSpendingData.amount, createSpendingData.userId, groupId);
+        Spending newSpending = spendingService.create(createSpendingData.name(), createSpendingData.amount(), createSpendingData.userId(), groupId);
 
         return new ResponseEntity<>(newSpending.getId(), HttpStatus.CREATED);
     }
