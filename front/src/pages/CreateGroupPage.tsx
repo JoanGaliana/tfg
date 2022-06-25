@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import GroupForm from "../components/GroupForm";
 import MainAppBar from "../components/MainAppBar";
 import { AuthContext } from "../contexts/AuthContext";
-import { Group, useCreateGroupMutation } from "../services/GroupsService";
+import {
+  CreateGroupData,
+  useCreateGroupMutation,
+} from "../services/GroupsService";
 
 function CreateGroupPage() {
   const navigate = useNavigate();
@@ -18,7 +21,7 @@ function CreateGroupPage() {
     },
   });
 
-  const onSubmit = (group: Group) => {
+  const onSubmit = (group: CreateGroupData) => {
     if (!isLoading) {
       createGroup(group);
     }
@@ -36,7 +39,7 @@ function CreateGroupPage() {
         }}
       >
         <Container component="main" maxWidth="sm">
-          <GroupForm group={{}} isLoading={isLoading} onSubmit={onSubmit} />
+          <GroupForm isLoading={isLoading} onSubmit={onSubmit} />
         </Container>
       </Box>
     </>

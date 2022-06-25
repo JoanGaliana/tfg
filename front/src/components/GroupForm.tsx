@@ -1,11 +1,10 @@
 import { LoadingButton } from "@mui/lab";
 import { Card, CardContent, Typography, Box, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Group } from "../services/GroupsService";
+import { CreateGroupData } from "../services/GroupsService";
 
 interface GroupFormParams {
-  group: Group;
-  onSubmit: (group: Group) => void;
+  onSubmit: (group: CreateGroupData) => void;
   isLoading: boolean;
 }
 
@@ -13,7 +12,7 @@ type FormData = {
   name: string;
 };
 
-function GroupForm({ group, onSubmit, isLoading }: GroupFormParams) {
+function GroupForm({ onSubmit, isLoading }: GroupFormParams) {
   const {
     register,
     handleSubmit,
@@ -39,7 +38,6 @@ function GroupForm({ group, onSubmit, isLoading }: GroupFormParams) {
             id="name"
             label="Nombre"
             autoFocus
-            value={group.name}
             error={!!errors.name}
             helperText={errors.name && "Campo requerido"}
             {...register("name", { required: true })}

@@ -8,14 +8,10 @@ import {
   Autocomplete,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import {
-  CreateNewSpendingRequest,
-  Spending,
-} from "../services/SpendingsService";
+import { CreateNewSpendingRequest } from "../services/SpendingsService";
 import { User } from "../services/UsersService";
 
 interface SpendingFormParams {
-  spending: Spending;
   onSubmit: (spending: CreateNewSpendingRequest) => void;
   isLoading: boolean;
   groupUsers: User[] | undefined;
@@ -27,12 +23,7 @@ type FormData = {
   userEmail: string;
 };
 
-function SpendingForm({
-  spending,
-  onSubmit,
-  isLoading,
-  groupUsers,
-}: SpendingFormParams) {
+function SpendingForm({ onSubmit, isLoading, groupUsers }: SpendingFormParams) {
   const {
     register,
     handleSubmit,
@@ -74,7 +65,6 @@ function SpendingForm({
             id="name"
             label="Asunto"
             autoFocus
-            value={spending.name}
             error={!!errors.name}
             helperText={errors.name && "Campo requerido"}
             {...register("name", { required: true })}
@@ -85,7 +75,6 @@ function SpendingForm({
             fullWidth
             id="amount"
             label="Cantidad"
-            value={spending.amount}
             type="number"
             error={!!errors.amount}
             helperText={errors.amount && "Campo requerido"}

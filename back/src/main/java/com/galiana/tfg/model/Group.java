@@ -3,6 +3,7 @@ package com.galiana.tfg.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,10 +16,12 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
+    @NotNull
     private Long id;
 
     @Getter
     @Setter
+    @NotNull
     private String name;
 
     @Getter

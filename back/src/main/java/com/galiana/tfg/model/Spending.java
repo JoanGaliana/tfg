@@ -3,6 +3,7 @@ package com.galiana.tfg.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -13,14 +14,17 @@ public class Spending {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
+    @NotNull
     private Long id;
 
     @Getter
     @Setter
+    @NotNull
     private String name;
 
     @Getter
     @Setter
+    @NotNull
     private double amount;
 
     @Getter

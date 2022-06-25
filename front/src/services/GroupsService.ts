@@ -32,8 +32,9 @@ export function useUserGroupsQuery(
 type CreateNewGroupRequest =
   operations["createNewGroup"]["requestBody"]["content"]["application/json"];
 type CreateNewGroupResponse =
-  operations["createNewGroup"]["responses"]["200"]["content"]["*/*"];
+  operations["createNewGroup"]["responses"]["201"]["content"]["*/*"];
 
+export type CreateGroupData = CreateNewGroupRequest;
 interface UseCreateGroupMutationParams {
   onSuccess?: (response: AxiosResponse<CreateNewGroupResponse, any>) => any;
   authToken: string;

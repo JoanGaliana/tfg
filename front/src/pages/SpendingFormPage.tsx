@@ -50,7 +50,6 @@ function SpendingFormPage() {
       >
         <Container component="main" maxWidth="sm">
           <SpendingForm
-            spending={{}}
             groupUsers={data?.users}
             isLoading={isLoading}
             onSubmit={onSubmit}

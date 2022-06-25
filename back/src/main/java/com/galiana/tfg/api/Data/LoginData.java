@@ -1,4 +1,6 @@
 package com.galiana.tfg.api.Data;
 
-public record LoginData(String email, String password) {
+import javax.validation.constraints.NotNull;
+
+public record LoginData(@NotNull String email, @NotNull String password) {
 }

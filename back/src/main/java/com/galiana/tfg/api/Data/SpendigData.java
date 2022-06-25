@@ -1,4 +1,6 @@
 package com.galiana.tfg.api.Data;
 
-public record SpendigData(String name, double amount, Long userId) {
+import javax.validation.constraints.NotNull;
+
+public record SpendigData(@NotNull String name, @NotNull double amount, @NotNull Long userId) {
 }

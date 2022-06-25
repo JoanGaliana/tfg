@@ -1,4 +1,6 @@
 package com.galiana.tfg.api.Data;
 
-public record CreateGroupData(String name) {
+import javax.validation.constraints.NotNull;
+
+public record CreateGroupData(@NotNull String name) {
 }

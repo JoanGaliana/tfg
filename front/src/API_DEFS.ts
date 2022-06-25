@@ -8,24 +8,30 @@ export interface paths {
     post: operations["loginByPassword"];
   };
   "/groups": {
+    /** Current authenticated user is added to group members by default */
     post: operations["createNewGroup"];
   };
   "/groups/{groupId}/spendings": {
+    /** Creates a new spending by an user in a group */
     post: operations["createNewSpending"];
   };
   "/users/{id}/groups": {
+    /** Users can only get their own groups */
     get: operations["getUserGroups"];
   };
   "/users/current": {
     get: operations["getCurrentUser"];
   };
   "/groups/{id}": {
+    /** User can only get data from its own groups */
     get: operations["getGroupById"];
   };
   "/groups/{id}/spendings": {
+    /** Gets all spendings of a group */
     get: operations["getGroupSpendings"];
   };
   "/groups/{id}/members": {
+    /** User can only get data from its own groups */
     get: operations["getGroupMembersById"];
   };
 }
@@ -38,37 +44,37 @@ export interface components {
       details?: string;
     };
     LoginData: {
-      email?: string;
-      password?: string;
+      email: string;
+      password: string;
     };
     CreateGroupData: {
-      name?: string;
+      name: string;
     };
     SpendigData: {
-      name?: string;
+      name: string;
       /** Format: double */
-      amount?: number;
+      amount: number;
       /** Format: int64 */
-      userId?: number;
+      userId: number;
     };
     Group: {
       /** Format: int64 */
-      id?: number;
-      name?: string;
+      id: number;
+      name: string;
       users?: components["schemas"]["User"][];
     };
     User: {
       /** Format: int64 */
-      id?: number;
-      email?: string;
+      id: number;
+      email: string;
       username?: string;
     };
     Spending: {
       /** Format: int64 */
-      id?: number;
-      name?: string;
+      id: number;
+      name: string;
       /** Format: double */
-      amount?: number;
+      amount: number;
       group?: components["schemas"]["Group"];
       user?: components["schemas"]["User"];
     };
@@ -85,26 +91,14 @@ export interface components {
 export interface operations {
   loginByPassword: {
     responses: {
-      /** OK */
+      /** User's auth token */
       200: {
         content: {
           "*/*": string;
         };
       };
-      /** Bad Request */
-      400: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Unauthorized */
+      /** Invalid credentials */
       401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
-      404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
@@ -116,30 +110,13 @@ export interface operations {
       };
     };
   };
+  /** Current authenticated user is added to group members by default */
   createNewGroup: {
     responses: {
-      /** OK */
-      200: {
+      /** Created group's id */
+      201: {
         content: {
           "*/*": number;
-        };
-      };
-      /** Bad Request */
-      400: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
-      404: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
         };
       };
     };
@@ -149,32 +126,28 @@ export interface operations {
       };
     };
   };
+  /** Creates a new spending by an user in a group */
   createNewSpending: {
     parameters: {
       path: {
+        /** Group id */
         groupId: number;
       };
     };
     responses: {
-      /** OK */
-      200: {
+      /** Created spending's id */
+      201: {
         content: {
           "*/*": number;
         };
       };
-      /** Bad Request */
-      400: {
+      /** Authenticated user isn't member of group */
+      403: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
       };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
+      /** User or group not found */
       404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
@@ -187,33 +160,23 @@ export interface operations {
       };
     };
   };
+  /** Users can only get their own groups */
   getUserGroups: {
     parameters: {
       path: {
+        /** User id */
         id: number;
       };
     };
     responses: {
-      /** OK */
+      /** User's groups */
       200: {
         content: {
           "*/*": components["schemas"]["Group"][];
         };
       };
-      /** Bad Request */
-      400: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
-      404: {
+      /** Authenticated user doesn't have permission */
+      403: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
@@ -222,58 +185,36 @@ export interface operations {
   };
   getCurrentUser: {
     responses: {
-      /** OK */
+      /** User's data */
       200: {
         content: {
           "*/*": components["schemas"]["User"];
         };
       };
-      /** Bad Request */
-      400: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
-      404: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
     };
   };
+  /** User can only get data from its own groups */
   getGroupById: {
     parameters: {
       path: {
+        /** Group id */
         id: number;
       };
     };
     responses: {
-      /** OK */
+      /** Group's data */
       200: {
         content: {
           "*/*": components["schemas"]["Group"];
         };
       };
-      /** Bad Request */
-      400: {
+      /** Authenticated user isn't member of group */
+      403: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
       };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
+      /** Group not found */
       404: {
         content: {
           "*/*": components["schemas"]["ApiError"];
@@ -281,65 +222,45 @@ export interface operations {
       };
     };
   };
+  /** Gets all spendings of a group */
   getGroupSpendings: {
     parameters: {
       path: {
+        /** Group id */
         id: number;
       };
     };
     responses: {
-      /** OK */
+      /** User's groups */
       200: {
         content: {
           "*/*": components["schemas"]["Spending"][];
         };
       };
-      /** Bad Request */
-      400: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
-      404: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
     };
   };
+  /** User can only get data from its own groups */
   getGroupMembersById: {
     parameters: {
       path: {
+        /** Group id */
         id: number;
       };
     };
     responses: {
-      /** OK */
+      /** Group's members */
       200: {
         content: {
           "*/*": components["schemas"]["Member"][];
         };
       };
-      /** Bad Request */
-      400: {
+      /** Authenticated user isn't member of group */
+      403: {
         content: {
           "*/*": components["schemas"]["ApiError"];
         };
       };
-      /** Unauthorized */
-      401: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Not Found */
+      /** Group not found */
       404: {
         content: {
           "*/*": components["schemas"]["ApiError"];

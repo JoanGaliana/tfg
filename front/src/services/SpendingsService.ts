@@ -55,7 +55,7 @@ export function useGroupMembersQuery(
 export type CreateNewSpendingRequest =
   operations["createNewSpending"]["requestBody"]["content"]["application/json"];
 type CreateNewSpendingResponse =
-  operations["createNewSpending"]["responses"]["200"]["content"]["*/*"];
+  operations["createNewSpending"]["responses"]["201"]["content"]["*/*"];
 
 interface UseCreateSpendingMutationParams {
   onSuccess?: (response: AxiosResponse<CreateNewSpendingResponse, any>) => any;
