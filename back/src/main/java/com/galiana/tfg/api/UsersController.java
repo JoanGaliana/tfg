@@ -6,6 +6,12 @@ import com.galiana.tfg.model.Group;
 import com.galiana.tfg.model.User;
 import com.galiana.tfg.service.GroupService;
 import com.galiana.tfg.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +27,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Set;
 
-@Tag(name = "Authentication")
+@Tag(name = "Users")
 @RestController()
 @RequiredArgsConstructor
 public class UsersController {
@@ -34,6 +40,17 @@ public class UsersController {
     }
 
     @PostMapping("login")
+    @Operation(
+            summary = "Get auth token by user's email and password",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User's auth token"),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Invalid credentials",
+                            content = @Content(schema = @Schema(implementation = ErrorHandler.ApiError.class))
+                    ),
+            }
+    )
     ResponseEntity<String> loginByPassword(@RequestBody @Valid LoginData loginData) {
         try {
             Authentication data = new UsernamePasswordAuthenticationToken(loginData.email, loginData.password);
@@ -48,12 +65,33 @@ public class UsersController {
     }
 
     @GetMapping("/users/current")
+    @Operation(
+            summary = "Get current authenticated user's data",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User's data"),
+            }
+    )
     User getCurrentUser(Principal principal) {
         return userService.findByEmail(principal.getName());
     }
 
     @GetMapping("/users/{id}/groups")
     @PreAuthorize("#id == authentication.principal.id")
+    @Operation(
+            summary = "Get groups by user id",
+            description = "Users can only get their own groups",
+            parameters = {
+                    @Parameter(in = ParameterIn.PATH, name = "id", description = "User id"),
+            },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User's groups"),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Authenticated user doesn't have permission",
+                            content = @Content(schema = @Schema(implementation = ErrorHandler.ApiError.class))
+                    ),
+            }
+    )
     Set<Group> getUserGroups(@PathVariable Long id) {
         return groupService.findByUserId(id);
     }
