@@ -96,6 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(format("%s/**", h2ConsolePath)).permitAll()
                 // Our public endpoints
                 .antMatchers("/login").permitAll()
+                .antMatchers("/actuator/health").permitAll()
                 // Our private endpoints
                 .anyRequest().authenticated();
 

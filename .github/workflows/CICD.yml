@@ -123,6 +123,7 @@ jobs:
           working-directory: e2e
           env: backendURL=${{ env.PRE_API_URL }}
           config: baseUrl=${{ env.PRE_BASE_URL }},retries=2,video=false
+          wait-on: 'https://${{ env.PRE_API_URL }}/actuator/health'
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
@@ -187,9 +188,10 @@ jobs:
           working-directory: e2e
           env: backendURL=${{ env.API_URL }}
           config: baseUrl=${{ env.BASE_URL }},retries=2,video=false
+          wait-on: 'https://${{ env.API_URL }}/actuator/health'
+
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}                    
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
       
       - uses: actions/upload-artifact@v2
