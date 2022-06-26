@@ -124,6 +124,7 @@ jobs:
           env: backendURL=${{ env.PRE_API_URL }}
           config: baseUrl=${{ env.PRE_BASE_URL }},retries=2,video=false
           wait-on: 'https://${{ env.PRE_API_URL }}/actuator/health'
+          wait-on-timeout: 90
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
@@ -189,7 +190,7 @@ jobs:
           env: backendURL=${{ env.API_URL }}
           config: baseUrl=${{ env.BASE_URL }},retries=2,video=false
           wait-on: 'https://${{ env.API_URL }}/actuator/health'
-
+          wait-on-timeout: 90
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}                    
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
