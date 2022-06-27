@@ -77,3 +77,33 @@ export function useGetGroupByIdQuery(
     }
   );
 }
+export type AddMemberRequest =
+  operations["addMemberToGroup"]["requestBody"]["content"]["application/json"];
+type AddMemberResponse =
+  operations["addMemberToGroup"]["responses"]["201"]["content"]["*/*"];
+
+interface UseAddMemberMutationParams {
+  onSuccess?: (response: AxiosResponse<AddMemberResponse, any>) => any;
+  authToken: string;
+  groupId: string;
+}
+
+interface GroupIdData {
+  groupId: number;
+}
+export function useAddMemberMutation({
+  onSuccess,
+  authToken,
+}: UseAddMemberMutationParams) {
+  const headers = getAuthenticationHeaders(authToken);
+
+  return useMutation(
+    (data: AddMemberRequest & GroupIdData) =>
+      axios.post<AddMemberResponse>(
+        `${API_URL}/groups/${data.groupId}/members`,
+        data,
+        { headers }
+      ),
+    { onSuccess }
+  );
+}

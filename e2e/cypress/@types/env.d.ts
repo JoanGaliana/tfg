@@ -49,4 +49,5 @@ export interface EnvKeys {
   'userGroups': Group[];
   'authToken': string;
   'currentUser': User;
+  'createdGroupId': number;
 }

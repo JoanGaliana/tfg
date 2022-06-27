@@ -12,8 +12,9 @@ declare global {
   namespace Cypress {
     interface Chainable {
       login(): Chainable;
-      getUserGroup(): Chainable
-      getCurrentUser(): Chainable
+      getUserGroup(): Chainable;
+      getCurrentUser(): Chainable;
+      createGroup(): Chainable;
     }
   }
 }
@@ -82,8 +83,6 @@ Cypress.Commands.add("getUserGroup", () => {
     throw new Error("Auth token not set");
   }
 
-  cy.log(JSON.stringify(currentUser));
-
   if (!currentUser || !currentUser.id) {
     throw new Error("Current User not set");
   }
@@ -102,5 +101,38 @@ Cypress.Commands.add("getUserGroup", () => {
       }
 
       Cypress.env("userGroups", response.body);
+    });
+});
+
+Cypress.Commands.add("createGroup", () => {
+  const backendURL = Cypress.env('backendURL');
+  const authToken = Cypress.env('authToken');
+  const currentUser = Cypress.env('currentUser')
+
+  if (!authToken) {
+    throw new Error("Auth token not set");
+  }
+
+  if (!currentUser || !currentUser.id) {
+    throw new Error("Current User not set");
+  }
+
+  const headers = getAuthenticationHeaders(authToken)
+
+  const options = {
+    method: "POST",
+    url: `${backendURL}/groups`,
+    headers,
+    body:{
+      name: `Test_${Date.now()}`
+    }
+  }
+  return cy.request<number>(options)
+    .then(response => {
+      if (response.status !== 201) {
+        throw new Error(`Failed create group request ${response.status}`)
+      }
+
+      Cypress.env("createdGroupId", response.body);
     });
 });

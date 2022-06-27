@@ -11,6 +11,11 @@ export interface paths {
     /** Current authenticated user is added to group members by default */
     post: operations["createNewGroup"];
   };
+  "/groups/{id}/members": {
+    /** User can only get data from its own groups */
+    get: operations["getGroupMembersById"];
+    post: operations["addMemberToGroup"];
+  };
   "/groups/{groupId}/spendings": {
     /** Creates a new spending by an user in a group */
     post: operations["createNewSpending"];
@@ -30,10 +35,6 @@ export interface paths {
     /** Gets all spendings of a group */
     get: operations["getGroupSpendings"];
   };
-  "/groups/{id}/members": {
-    /** User can only get data from its own groups */
-    get: operations["getGroupMembersById"];
-  };
 }
 
 export interface components {
@@ -49,6 +50,9 @@ export interface components {
     };
     CreateGroupData: {
       name: string;
+    };
+    AddMemberData: {
+      email: string;
     };
     SpendigData: {
       name: string;
@@ -123,6 +127,68 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["CreateGroupData"];
+      };
+    };
+  };
+  /** User can only get data from its own groups */
+  getGroupMembersById: {
+    parameters: {
+      path: {
+        /** Group id */
+        id: number;
+      };
+    };
+    responses: {
+      /** Group's members */
+      200: {
+        content: {
+          "*/*": components["schemas"]["Member"][];
+        };
+      };
+      /** Authenticated user isn't member of group */
+      403: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Group not found */
+      404: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  addMemberToGroup: {
+    parameters: {
+      path: {
+        /** Group id */
+        id: number;
+      };
+    };
+    responses: {
+      /** Added member */
+      201: {
+        content: {
+          "*/*": string;
+        };
+      };
+      /** Authenticated user isn't member of group */
+      403: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+      /** Group or member not found */
+      404: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AddMemberData"];
       };
     };
   };
@@ -235,35 +301,6 @@ export interface operations {
       200: {
         content: {
           "*/*": components["schemas"]["Spending"][];
-        };
-      };
-    };
-  };
-  /** User can only get data from its own groups */
-  getGroupMembersById: {
-    parameters: {
-      path: {
-        /** Group id */
-        id: number;
-      };
-    };
-    responses: {
-      /** Group's members */
-      200: {
-        content: {
-          "*/*": components["schemas"]["Member"][];
-        };
-      };
-      /** Authenticated user isn't member of group */
-      403: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
-        };
-      };
-      /** Group not found */
-      404: {
-        content: {
-          "*/*": components["schemas"]["ApiError"];
         };
       };
     };
