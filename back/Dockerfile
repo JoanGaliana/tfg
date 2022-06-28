@@ -12,7 +12,7 @@ RUN ./mvnw verify --fail-never
 
 COPY . ./
 RUN ["chmod", "+x", "mvnw"]
-RUN ./mvnw clean package
+RUN ./mvnw package
 
 # Actual container
 FROM openjdk:17-jdk-alpine

@@ -1,6 +1,5 @@
-version: '3'
 services:
-  nginx:
+  reverse-proxy:                                                                        #a
     image: nginx:latest
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
@@ -18,11 +17,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    links:
-      - front-pre
-      - back-pre
-      - front
-      - back
 
   front-pre:
     image: ghcr.io/joangaliana/tfg-front-pre:latest

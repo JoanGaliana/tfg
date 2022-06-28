@@ -1,7 +1,5 @@
-version: '3'
 services:
   web:
-    build: ../front
     image: front
     restart: always
     environment: 
@@ -9,7 +7,6 @@ services:
     ports:
       - "3000:80"
   back:
-    build: ../back
     image: back
     restart: always
     ports:
