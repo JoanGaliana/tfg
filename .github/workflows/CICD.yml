@@ -67,7 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-pre-and-test:
-    uses: ./.github/workflows/deploy-and-test.yaml
+    uses: ./.github/workflows/deploy-and-test.yml
     needs: ci-tests
     with: 
       API_URL: ${{ env.PRE_API_URL  }}
@@ -83,7 +83,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
 
   deploy-prod-and-test:
-    uses: ./.github/workflows/deploy-and-test.yaml
+    uses: ./.github/workflows/deploy-and-test.yml
     needs: deploy-pre-and-test
     with: 
       API_URL: ${{ env.API_URL }}
