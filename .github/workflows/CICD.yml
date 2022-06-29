@@ -23,7 +23,7 @@ jobs:
     needs: ci-tests
     with: 
       ENV_NAME: pre-production
-      DEPLOY: true
+      DEPLOY: true 
 
       API_URL: https://pre-back.tfg.joangaliana.com
       BASE_URL:  https://pre-tfg.joangaliana.com
