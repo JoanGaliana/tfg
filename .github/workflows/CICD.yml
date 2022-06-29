@@ -3,20 +3,6 @@ on:
   push:
     branches:
       - master
-
-env:
-  BACKEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-back-pre
-  FRONTEND_PRE_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-pre
-  
-  BACKEND_IMAGE_NAME: ghcr.io/joangaliana/tfg-back
-  FRONTEND_IMAGE_NAME: ghcr.io/joangaliana/tfg-front
-  
-  PRE_BASE_URL: https://pre-tfg.joangaliana.com
-  PRE_API_URL: https://pre-back.tfg.joangaliana.com
-
-  BASE_URL: https://tfg.joangaliana.com
-  API_URL: https://back.tfg.joangaliana.com
-
 jobs:
   ci-tests:
     runs-on: ubuntu-latest
@@ -70,30 +56,34 @@ jobs:
     uses: ./.github/workflows/deploy-and-test.yml
     needs: ci-tests
     with: 
-      API_URL: ${{ env.PRE_API_URL  }}
       ENV_NAME: pre-production
-      BASE_URL: ${{ env.PRE_BASE_URL  }}
-      BACKEND_IMAGE_NAME: ${{ env.BACKEND_PRE_IMAGE_NAME  }}
-      FRONTEND_IMAGE_NAME: ${{ env.FRONTEND_PRE_IMAGE_NAME  }}
+      
+      API_URL: https://pre-back.tfg.joangaliana.com
+      BASE_URL:  https://pre-tfg.joangaliana.com
+      
+      BACKEND_IMAGE_NAME: ghcr.io/joangaliana/tfg-back-pre
+      FRONTEND_IMAGE_NAME: ghcr.io/joangaliana/tfg-front-pre
     secrets:
-      SSH_HOST: ${{ secrets.GITHUB_TOKEN }}
-      SSH_USERNAME: ${{ secrets.GITHUB_TOKEN }}
-      SSH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      SSH_DEPLOY_CMD: ${{ secrets.GITHUB_TOKEN }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      SSH_DEPLOY_CMD: ${{ secrets.SSH_DEPLOY_CMD }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
 
   deploy-prod-and-test:
     uses: ./.github/workflows/deploy-and-test.yml
     needs: deploy-pre-and-test
     with: 
-      API_URL: ${{ env.API_URL }}
       ENV_NAME: production
-      BASE_URL: ${{ env.BASE_URL }}
-      BACKEND_IMAGE_NAME: ${{ env.BACKEND_IMAGE_NAME }}
-      FRONTEND_IMAGE_NAME: ${{ env.FRONTEND_IMAGE_NAME }}
+    
+      API_URL: https://back.tfg.joangaliana.com
+      BASE_URL: https://tfg.joangaliana.com
+    
+      BACKEND_IMAGE_NAME: ghcr.io/joangaliana/tfg-back
+      FRONTEND_IMAGE_NAME: ghcr.io/joangaliana/tfg-front
     secrets:
-      SSH_HOST: ${{ secrets.GITHUB_TOKEN }}
-      SSH_USERNAME: ${{ secrets.GITHUB_TOKEN }}
-      SSH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      SSH_DEPLOY_CMD: ${{ secrets.GITHUB_TOKEN }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      SSH_DEPLOY_CMD: ${{ secrets.SSH_DEPLOY_CMD }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
