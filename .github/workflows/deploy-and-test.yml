@@ -66,6 +66,7 @@ jobs:
         with:
           context: ./front
           push: ${{ inputs.DEPLOY }}
+          load: ${{ inputs.DEPLOY == false }}
           tags: ${{ inputs.FRONTEND_IMAGE_NAME }}
           cache-from: type=gha,scope=front
           cache-to: type=gha,mode=max,scope=front
@@ -75,6 +76,7 @@ jobs:
         with:
           context: ./back
           push: ${{ inputs.DEPLOY }}
+          load: ${{ inputs.DEPLOY == false }}
           tags: ${{ inputs.BACKEND_IMAGE_NAME }}
           cache-from: type=gha,scope=back
           cache-to: type=gha,mode=max,scope=back
