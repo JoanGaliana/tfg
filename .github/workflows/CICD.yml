@@ -69,6 +69,7 @@ jobs:
       SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       SSH_DEPLOY_CMD: ${{ secrets.SSH_DEPLOY_CMD }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
   deploy-prod-and-test:
     uses: ./.github/workflows/deploy-and-test.yml
@@ -87,3 +88,4 @@ jobs:
       SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       SSH_DEPLOY_CMD: ${{ secrets.SSH_DEPLOY_CMD }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
