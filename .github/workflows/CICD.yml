@@ -8,7 +8,8 @@ jobs:
     uses: ./.github/workflows/deploy-and-test.yml
     with: 
       ENV_NAME: continous-integration
-      
+      DEPLOY: false
+
       API_URL: http://localhost:8080
       BASE_URL: http://localhost:3000
       
@@ -22,7 +23,8 @@ jobs:
     needs: ci-tests
     with: 
       ENV_NAME: pre-production
-      
+      DEPLOY: true
+
       API_URL: https://pre-back.tfg.joangaliana.com
       BASE_URL:  https://pre-tfg.joangaliana.com
       
@@ -40,6 +42,7 @@ jobs:
     needs: deploy-pre-and-test
     with: 
       ENV_NAME: production
+      DEPLOY: true
     
       API_URL: https://back.tfg.joangaliana.com
       BASE_URL: https://tfg.joangaliana.com
