@@ -1,8 +1,5 @@
 name: CI/CD
-on: 
-  push:
-    branches:
-      - master
+on: push
 jobs:
   ci-tests:
     uses: ./.github/workflows/deploy-and-test.yml
