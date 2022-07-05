@@ -137,10 +137,30 @@ public class GroupServiceTests {
         assertThatThrownBy(() -> groupService.addMember(1L, 1L, "no@exists.com"))
                 .isInstanceOf(UserNotFoundException.class);
     }
+
     @Test
     @Transactional
     void addMemberGroupNotFound() {
         assertThatThrownBy(() -> groupService.addMember(1L, 999L, "bernardo@test2.com"))
                 .isInstanceOf(GroupNotFoundException.class);
+    }
+
+
+    @Test
+    @Transactional
+    void removeGroupById() {
+        groupService.removeGroupById(1L, 1L);
+
+        assertThat(groupService.findById(1L)).isNull();
+    }
+
+    @Test
+    @Transactional
+    void removeGroupUserNotInGroup() {
+        assertThatThrownBy(() -> groupService.removeGroupById(2L, 1L))
+                .isInstanceOf(UserNotInGroupException.class);
+
+        assertThatThrownBy(() -> groupService.removeGroupById(999L, 1L))
+                .isInstanceOf(UserNotInGroupException.class);
     }
 }

@@ -16,8 +16,7 @@ import javax.transaction.Transactional;
 import java.util.Objects;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -144,6 +143,31 @@ public class GroupsTest {
         var group = groupRepository.findById(1L).orElseThrow();
 
         Assertions.assertThat(group.getUsers()).anyMatch((user) -> Objects.equals(user.getEmail(), "bernardo@test2.com"));
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    void removeGroup() throws Exception {
+        this.mockMvc.perform(
+                        delete("/groups/1/")
+                )
+                .andExpect(status().isNoContent());
+
+        var group = groupRepository.findById(1L).orElse(null);
+
+        assertThat(group).isNull();
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails("alicia@test.com")
+    public void removeGroupUserNotInGroup() throws Exception {
+        this.mockMvc.perform(
+                        delete("/groups/2/")
+                )
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error").value("USER_NOT_IN_GROUP"));
     }
 
     @Test

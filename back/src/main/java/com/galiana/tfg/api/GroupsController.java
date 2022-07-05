@@ -29,6 +29,7 @@ public class GroupsController {
     private final GroupService groupService;
 
     @PostMapping("/groups")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Create new group",
             description = "Current authenticated user is added to group members by default",
@@ -36,13 +37,13 @@ public class GroupsController {
                     @ApiResponse(responseCode = "201", description = "Created group's id"),
             }
     )
-    ResponseEntity<Long> createNewGroup(@RequestBody CreateGroupData createGroupData) {
+    Long createNewGroup(@RequestBody CreateGroupData createGroupData) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
 
         Group newGroup = groupService.create(createGroupData.name(), currentUser);
 
-        return new ResponseEntity<>(newGroup.getId(), HttpStatus.CREATED);
+        return newGroup.getId();
     }
 
     @GetMapping("/groups/{id}")
@@ -125,6 +126,7 @@ public class GroupsController {
     }
 
     @PostMapping("/groups/{id}/members")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Add member to group",
             parameters = {
@@ -144,12 +146,34 @@ public class GroupsController {
                     ),
             }
     )
-    ResponseEntity addMemberToGroup(@PathVariable Long id, @RequestBody AddMemberData addMemberData) {
+    void addMemberToGroup(@PathVariable Long id, @RequestBody AddMemberData addMemberData) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
 
         groupService.addMember(currentUser.getId(), id, addMemberData.email());
+    }
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @DeleteMapping("/groups/{id}/")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(
+            summary = "Delete group",
+            description = "User must be in target group",
+            parameters = {
+                    @Parameter(in = ParameterIn.PATH, name = "id", description = "Group id")
+            },
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Group removed"),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Authenticated user isn't member of group",
+                            content = @Content(schema = @Schema(implementation = ErrorHandler.ApiError.class))
+                    ),
+            }
+    )
+    void deleteGroup(@PathVariable Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+
+       groupService.removeGroupById(id, currentUser.getId());
     }
 }

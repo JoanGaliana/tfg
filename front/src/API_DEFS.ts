@@ -39,6 +39,10 @@ export interface paths {
     /** Gets all spendings of a group */
     get: operations["getGroupSpendings"];
   };
+  "/groups/{id}/": {
+    /** User must be in target group */
+    delete: operations["deleteGroup"];
+  };
 }
 
 export interface components {
@@ -198,11 +202,7 @@ export interface operations {
     };
     responses: {
       /** Added member */
-      201: {
-        content: {
-          "*/*": string;
-        };
-      };
+      201: unknown;
       /** Authenticated user isn't member of group */
       403: {
         content: {
@@ -331,6 +331,25 @@ export interface operations {
       200: {
         content: {
           "*/*": components["schemas"]["Spending"][];
+        };
+      };
+    };
+  };
+  /** User must be in target group */
+  deleteGroup: {
+    parameters: {
+      path: {
+        /** Group id */
+        id: number;
+      };
+    };
+    responses: {
+      /** Group removed */
+      201: unknown;
+      /** Authenticated user isn't member of group */
+      403: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
         };
       };
     };

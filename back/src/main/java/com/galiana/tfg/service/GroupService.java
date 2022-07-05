@@ -8,6 +8,7 @@ import com.galiana.tfg.model.Group;
 import com.galiana.tfg.model.Spending;
 import com.galiana.tfg.model.User;
 import com.galiana.tfg.repository.GroupRepository;
+import com.galiana.tfg.repository.SpendingRepository;
 import com.galiana.tfg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GroupService {
     final GroupRepository groupRepository;
+    final SpendingRepository spendingRepository;
     final UserRepository userRepository;
 
     public Set<Group> findByUserId(Long userId) {
@@ -67,5 +69,15 @@ public class GroupService {
         groupRepository.save(group);
 
         return group;
+    }
+
+    @Transactional
+    public void removeGroupById(long groupId, long userId) {
+        if (!isUserInGroup(userId, groupId)) {
+            throw new UserNotInGroupException();
+        }
+        spendingRepository.deleteAll(spendingRepository.findByGroup_id(groupId));
+
+        groupRepository.deleteById(groupId);
     }
 }

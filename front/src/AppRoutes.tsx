@@ -9,6 +9,7 @@ import SpendingFormPage from "./pages/SpendingFormPage";
 import GroupMembersPage from "./pages/GroupMembers";
 import AddMemberPage from "./pages/AddMemberPage";
 import UserRegistrationPage from "./pages/Register";
+import GroupConfigurationPage from "./pages/GroupConfigurationPage";
 
 function Authenticated({ children }: { children: JSX.Element }) {
   const { isAuthenticated } = useContext(AuthContext);
@@ -73,6 +74,14 @@ function AppRoutes() {
         element={
           <Authenticated>
             <AddMemberPage />
+          </Authenticated>
+        }
+      />
+      <Route
+        path="/groups/:id/configuration"
+        element={
+          <Authenticated>
+            <GroupConfigurationPage />
           </Authenticated>
         }
       />
