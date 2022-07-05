@@ -79,8 +79,7 @@ export function useGetGroupByIdQuery(
 }
 export type AddMemberRequest =
   operations["addMemberToGroup"]["requestBody"]["content"]["application/json"];
-type AddMemberResponse =
-  operations["addMemberToGroup"]["responses"]["201"]["content"]["*/*"];
+type AddMemberResponse = operations["addMemberToGroup"]["responses"]["201"];
 
 interface UseAddMemberMutationParams {
   onSuccess?: (response: AxiosResponse<AddMemberResponse, any>) => any;
@@ -104,6 +103,26 @@ export function useAddMemberMutation({
         data,
         { headers }
       ),
+    { onSuccess }
+  );
+}
+
+interface UseDeleteGroupMutationParams {
+  onSuccess?: (response: AxiosResponse<void, any>) => any;
+  authToken: string;
+}
+
+export function useDeleteGroupMutation({
+  onSuccess,
+  authToken,
+}: UseDeleteGroupMutationParams) {
+  const headers = getAuthenticationHeaders(authToken);
+
+  return useMutation(
+    (groupId: string) =>
+      axios.delete<void>(`${API_URL}/groups/${groupId}/`, {
+        headers,
+      }),
     { onSuccess }
   );
 }

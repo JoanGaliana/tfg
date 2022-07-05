@@ -38,9 +38,8 @@ export default function GroupBottomNavigation({
         />
         <BottomNavigationAction
           label="Configuración"
-          icon={
-            <SettingsIcon onClick={() => navigateToSubpath("configuration")} />
-          }
+          icon={<SettingsIcon />}
+          onClick={() => navigateToSubpath("configuration")}
         />
       </BottomNavigation>
     </Paper>
