@@ -2,6 +2,7 @@ package com.galiana.tfg.config.security;
 
 import com.galiana.tfg.service.UserDetailsService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -96,6 +97,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(format("%s/**", h2ConsolePath)).permitAll()
                 // Our public endpoints
                 .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/users/").permitAll()
                 .antMatchers("/actuator/health").permitAll()
                 // Our private endpoints
                 .anyRequest().authenticated();

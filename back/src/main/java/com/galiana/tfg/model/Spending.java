@@ -14,7 +14,6 @@ public class Spending {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    @NotNull
     private Long id;
 
     @Getter

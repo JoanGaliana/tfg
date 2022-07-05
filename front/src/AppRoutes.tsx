@@ -3,12 +3,12 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "./contexts/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import GroupForm from "./pages/CreateGroupPage";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import GroupDashboard from "./pages/GroupDashboard";
 import SpendingFormPage from "./pages/SpendingFormPage";
 import GroupMembersPage from "./pages/GroupMembers";
 import AddMemberPage from "./pages/AddMemberPage";
+import UserRegistrationPage from "./pages/Register";
 
 function Authenticated({ children }: { children: JSX.Element }) {
   const { isAuthenticated } = useContext(AuthContext);
@@ -24,8 +24,9 @@ function Authenticated({ children }: { children: JSX.Element }) {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<UserRegistrationPage />} />
 
       <Route
         path="/dashboard"

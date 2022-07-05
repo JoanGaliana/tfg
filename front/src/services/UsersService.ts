@@ -25,3 +25,12 @@ export function useCurrentUserQuery(authToken: string) {
     }
   );
 }
+
+export type CreateUserResponse =
+  operations["createUser"]["responses"]["201"]["content"]["*/*"];
+export type CreateUserRequest =
+  operations["createUser"]["requestBody"]["content"]["application/json"];
+
+export function createUser(payload: CreateUserRequest) {
+  return axios.post<CreateUserResponse>(`${API_URL}/users/`, payload);
+}

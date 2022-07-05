@@ -1,5 +1,6 @@
 package com.galiana.tfg.api;
 
+import com.galiana.tfg.api.Data.CreateUserData;
 import com.galiana.tfg.api.Data.LoginData;
 import com.galiana.tfg.config.security.JwtTokenUtil;
 import com.galiana.tfg.exceptions.InvalidCredentials;
@@ -25,11 +26,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.bind.ValidationException;
 import java.security.Principal;
 import java.util.Set;
 
 @Tag(name = "Users")
-@RestController()
+@RestController
 @RequiredArgsConstructor
 public class UsersController {
     private final AuthenticationManager authenticationManager;
@@ -60,6 +62,26 @@ public class UsersController {
         } catch (BadCredentialsException ex) {
             throw new InvalidCredentials();
         }
+    }
+
+    @PostMapping("/users/")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(
+            summary = "Creates a new user",
+            description = "User email must be unique",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Created user's auth token"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Validation error",
+                            content = @Content(schema = @Schema(implementation = ErrorHandler.ApiError.class))
+                    ),
+            }
+    )
+    String createUser(@RequestBody @Valid CreateUserData createUserData) throws ValidationException {
+        User user = userService.create(createUserData.email(), createUserData.password());
+
+        return jwtTokenUtil.generateAccessToken(user);
     }
 
     @GetMapping("/users/current")

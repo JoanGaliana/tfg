@@ -18,7 +18,6 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    @NotNull
     private Long id;
 
     @Getter

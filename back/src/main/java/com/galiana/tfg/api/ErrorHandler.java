@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
@@ -53,5 +54,14 @@ public class ErrorHandler {
         var apiError = new ApiError("USER_NOT_IN_GROUP", LocalDateTime.now().toString(), "");
 
         return new ResponseEntity<>(apiError, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @Hidden
+    public ResponseEntity<ApiError> handleValidationException(ValidationException ex, WebRequest request) {
+        var apiError = new ApiError(ex.getMessage().toUpperCase().replaceAll(" ", "_"), LocalDateTime.now().toString(), ex.getMessage());
+
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 }

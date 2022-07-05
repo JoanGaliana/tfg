@@ -4,6 +4,10 @@
  */
 
 export interface paths {
+  "/users/": {
+    /** User email must be unique */
+    post: operations["createUser"];
+  };
   "/login": {
     post: operations["loginByPassword"];
   };
@@ -44,6 +48,10 @@ export interface components {
       timestamp?: string;
       details?: string;
     };
+    CreateUserData: {
+      email: string;
+      password: string;
+    };
     LoginData: {
       email: string;
       password: string;
@@ -63,19 +71,19 @@ export interface components {
     };
     Group: {
       /** Format: int64 */
-      id: number;
+      id?: number;
       name: string;
       users?: components["schemas"]["User"][];
     };
     User: {
       /** Format: int64 */
-      id: number;
+      id?: number;
       email: string;
       username?: string;
     };
     Spending: {
       /** Format: int64 */
-      id: number;
+      id?: number;
       name: string;
       /** Format: double */
       amount: number;
@@ -93,6 +101,28 @@ export interface components {
 }
 
 export interface operations {
+  /** User email must be unique */
+  createUser: {
+    responses: {
+      /** Created user's auth token */
+      201: {
+        content: {
+          "*/*": string;
+        };
+      };
+      /** Validation error */
+      400: {
+        content: {
+          "*/*": components["schemas"]["ApiError"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateUserData"];
+      };
+    };
+  };
   loginByPassword: {
     responses: {
       /** User's auth token */

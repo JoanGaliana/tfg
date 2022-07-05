@@ -16,7 +16,6 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    @NotNull
     private Long id;
 
     @Getter
