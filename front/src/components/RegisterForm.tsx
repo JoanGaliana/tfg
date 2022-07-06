@@ -1,5 +1,12 @@
 import { LoadingButton } from "@mui/lab";
-import { Card, CardContent, Typography, Box, TextField } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  TextField,
+  Link,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { CreateUserRequest } from "../services/UsersService";
 
@@ -33,7 +40,7 @@ function UserRegistrationForm({
     <Card elevation={5}>
       <CardContent>
         <Typography component="h1" variant="h5">
-          Crear nueva cuenta
+          Registro de nueva cuenta de usuario
         </Typography>
         <Box component="form" noValidate onSubmit={submitForm} sx={{ mt: 1 }}>
           <TextField
@@ -71,6 +78,10 @@ function UserRegistrationForm({
           >
             Crear cuenta
           </LoadingButton>
+
+          <Link href="/login" variant="body2">
+            ¿Ya tienes una cuenta? Ir a inicio de sesión
+          </Link>
         </Box>
       </CardContent>
     </Card>
