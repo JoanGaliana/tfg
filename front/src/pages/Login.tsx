@@ -67,6 +67,9 @@ function Login() {
       <Container component="main" maxWidth="sm">
         <Card elevation={5}>
           <CardContent>
+            <Typography component="h3" variant="h4">
+              PRUEBA INTEGRACIÓN Y ENTREGA CONTINUA
+            </Typography>
             <Typography component="h1" variant="h5">
               Inicio de sesión
             </Typography>
